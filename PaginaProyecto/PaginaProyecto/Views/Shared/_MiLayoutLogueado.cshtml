@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/MiEstilo/css/")agency.css" >
+
+    <link href="@Url.Content("~/Content/")bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="@Url.Content("~/Content/MiEstilo/font-awesome/css/")font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Theme CSS -->
+    <link href="@Url.Content("~/Content/MiEstilo/css/")agency.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/MiEstilo/css/")login.css" rel="stylesheet">
+
+</head>
+<body>
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span><i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="@Url.Action("Index", "Home")">Proyecto</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="@Url.Action("Eventos", "Evento")">EVENTOS</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#portfolio">COMO DONAR</a>
+                    </li>
+                    <li>
+                        <div class="dropdown">
+                            <img src="@Url.Content("~/Content/MiEstilo/img/logos/")Iconousuario.png" class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top: 0px">
+                            <ul class="dropdown-menu" style="background-color: #fec503;">
+                              <li><a href="@Url.Action("HomeUsuario", "RegistracionUsuario")">Mi Perfil</a></li>
+                              <li><a href="@Url.Action("Eventos", "Evento")">Mis Eventos</a></li>
+                              <li><a href="@Url.Action("Index", "Home")" >Cerrar Sesion</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- jQuery -->
+    <script src="@Url.Content("~/Content/MiEstilo/js/")jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="@Url.Content("~/Content/MiEstilo/js/")bootstrap.min.js"></script>
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js" integrity="sha384-mE6eXfrb8jxl0rzJDBRanYqgBxtJ6Unn4/1F7q4xRRyIw7Vdg9jP4ycT7x1iVsgb" crossorigin="anonymous"></script>
+    <!-- Contact Form JavaScript -->
+    <script src="@Url.Content("~/Content/MiEstilo/js/")jqBootstrapValidation.js"></script>
+    <!-- Theme JavaScript -->
+    <script src="@Url.Content("~/Content/MiEstilo/js/")agency.min.js"></script>
+
+    <div>
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

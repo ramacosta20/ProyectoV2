@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Eventos";
+    Layout = "~/Views/Shared/_MiLayout.cshtml";
+}
+<h3 class="col-md-12" style="text-align:center; margin-top:10%;">Eventos</h3>
+
+<div class="row container">
+    <!--ACA VA UN FOREACH-->
+    <div class="jumbotron  col-md-6" style="text-align: center">
+        <img src="http://www.somoscolombianos.com/wp-content/uploads/2015/05/cura-contra-el-cancer.jpg" alt="cancer" class="img-thumbnail" style="padding-left;"/>
+        <h5>Cura de Cancer</h5>
+        <button type="button" class="btn btn-warning">@Html.ActionLink("Ver más", "Evento1", "Home"/*, new { sucursalID = unaSucursal.ID }, null*/)</button>
+    </div>
+</div>

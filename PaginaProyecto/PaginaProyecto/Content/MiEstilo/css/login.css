@@ -1,0 +1,27 @@
+#modal{
+	background-color: #fec503;
+}
+
+#txtEmail{
+	margin-left: 2%;
+}
+
+#inputEmail{
+	margin-left: 2%;
+	width: 95%;
+}
+#inputPassword{
+	margin-left: 2%;
+	width: 95%;
+}
+#txtPassword{
+	margin-left: 2%;
+	width: 95%;
+}
+#btnIniciar{
+	margin-left: 40%;
+}
+
+#divcont{
+	margin-top: 85px;
+}

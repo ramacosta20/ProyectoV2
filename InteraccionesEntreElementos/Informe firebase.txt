@@ -1,0 +1,18 @@
+http://stackoverflow.com/questions/10729878/firebase-net-access
+
+Dice que Firebase a C# no tiene una actualizacion constante como en JavaScript.
+
+https://medium.com/step-up-labs/firebase-c-library-5c342989ad18
+
+Dice que no existe una API de Firebase para c# pero él creo 2:
+	- https://github.com/ziyasal/FireSharp/
+	- https://github.com/bubbafat/FirebaseSharp
+
+http://stackoverflow.com/questions/37412963/send-push-to-android-by-c-sharp-using-fcm-firebase-cloud-messaging
+
+Aca dice que se puede, inclusive hay ejemplos del codigo.
+
+https://firebase.google.com/docs/
+
+La pagina de firebase dice que tiene la opcion de c++ en beta, pero no tiene c#. Tiene IOS, Android, Web (JavaScript).
+

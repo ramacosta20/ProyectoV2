@@ -1,0 +1,65 @@
+﻿@model PaginaProyecto.Models.Evento
+@{
+    ViewBag.Title = "AgregarEvento";
+    Layout = "~/Views/Shared/_MiLayout.cshtml";
+}
+<body>
+    <h2 style="padding:20px;">Agregar Evento</h2>
+    <div class="container col-sm-12 col-md-push-1 col-md-10">
+        @using (Html.BeginForm("AgregarEvento", "Evento", FormMethod.Post, new { enctype = "multipart/form-data" , @class = "form-horizontal Container", role = "form"}))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(x => x.NombreEvento, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.NombreEvento, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Descripcion, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Descripcion, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Meta, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Meta, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.FechaTermina, new { @class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.FechaTermina, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.EmbedUbicacion, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.EmbedUbicacion, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Imagen, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Imagen, new{ @class = "form-control", type = "file"});
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default" value="Crear Evento" />
+                </div>
+            </div>
+        }
+    </div>
+
+</body>
+
+
+
+
