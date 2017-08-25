@@ -47,11 +47,16 @@ namespace PaginaProyecto.Models
         [Compare("Contraseña", ErrorMessage = "La contraseña y la confirmacion no son iguales")]
         public string ConfirmarContraseña { get; set; }
 
+        public HttpPostedFileBase Imagen { get; set; }
+
+        public string ImagenString { get; set; }
+
         //metodos publicos
 
         //Agrega el usuario que ejecuta el metodo a la base de datos
         public void InsertarUsuario()
         {
+            int idUsuario = 0;
             //abro conexion y declaro una transaccion
             Conexiondb.Open();
             MySqlTransaction tran = Conexiondb.BeginTransaction();
@@ -65,9 +70,25 @@ namespace PaginaProyecto.Models
                 consulta.Parameters.AddWithValue("PEmail", this.Email);
                 consulta.Parameters.AddWithValue("PApellido",this.Apellido);
                 consulta.Parameters.AddWithValue("PContraseña",this.Contraseña);
+                consulta.Parameters.AddWithValue("PImagen", this.ImagenString);
 
                 //ejecuto la consulta que no devuelve nada
                 consulta.ExecuteNonQuery();
+                tran.Commit();
+
+                // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DB
+                MySqlCommand consultaId = new MySqlCommand("ObtenerIdUsuario", Conexiondb, tran);
+                consulta.CommandType = CommandType.StoredProcedure;
+                //Agrego los parametros
+            
+                consulta.Parameters.AddWithValue("PEmail", this.Email);
+
+                //ejecuto la consulta que no devuelve nada
+                MySqlDataReader dr =consultaId.ExecuteReader();
+                while (dr.Read())
+                {
+                    this.UsuarioID = Convert.ToInt32(dr["idUsuario"].ToString());
+                }
                 tran.Commit();
             }
             catch (Exception ex)
@@ -78,7 +99,7 @@ namespace PaginaProyecto.Models
                   Console.WriteLine("Exception Type: {0}", ex.GetType());
                   Console.WriteLine("  Message: {0}", ex.Message);
             }
-            Conexiondb.Close();
+            Conexiondb.Close(); 
         }
 
         //devuelve un Usuario si el mail y la contraseña(parametros) coinciden con un mail y una contraseña de un registro en la DB
@@ -102,6 +123,8 @@ namespace PaginaProyecto.Models
                 {
                     this.Nombre = dr["Nombre"].ToString();
                     this.Apellido = dr["Apellido"].ToString();
+                    this.ImagenString = dr["Imagen"].ToString();
+                    this.UsuarioID = Convert.ToInt32(dr["idUsuario"].ToString());
                 }
             }
             catch (Exception ex2)

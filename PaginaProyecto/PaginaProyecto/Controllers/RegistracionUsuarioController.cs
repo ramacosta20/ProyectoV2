@@ -9,7 +9,7 @@ namespace PaginaProyecto.Controllers
 {
     public class RegistracionUsuarioController : Controller
     {
-        // GET: RRegistracionUsuario/RegistrarUsuario/
+        // GET: RegistracionUsuario/RegistrarUsuario/
         public ActionResult RegistrarUsuario()
         {
             return View();
@@ -20,13 +20,27 @@ namespace PaginaProyecto.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RegistrarUsuario(Usuario oUsuario)
         {
+            //si el mail es valido hace que la propiedad de la clase EmailValido(bool) sea true
             oUsuario.ExisteMail();
             if (ModelState.IsValid && oUsuario.EmailValido)
             {
+                //si llega una imagen como parametro la guardo en Content/Usuarios y guardo el nombre del archivo en la DB
+                if (oUsuario.Imagen != null)
+                {
+                    string NuevaUbicacion = Server.MapPath("~/Content/Usuarios/") + oUsuario.Imagen.FileName;
+                    oUsuario.Imagen.SaveAs(NuevaUbicacion);
+                    oUsuario.ImagenString = oUsuario.Imagen.FileName;
+                }
+                else
+                {
+                    //si no llega una imagen como parametro asigno Default.png al usuario
+                    oUsuario.ImagenString = "Default.png";
+                }
                 oUsuario.InsertarUsuario();
-                TempData["UsuarioLogueado"] = oUsuario;
+                Session["UsuarioLogueado"] = oUsuario;
                 return RedirectToAction("HomeUsuario");
             }
+            
             else
             {
                 if (!oUsuario.EmailValido)
@@ -51,21 +65,14 @@ namespace PaginaProyecto.Controllers
             oUsuario.LoguearUsuario();
             if (oUsuario.Nombre != null)
             {
-                TempData["UsuarioLogueado"] = oUsuario;
-                return RedirectToAction("HomeUsuario");
+                Session["UsuarioLogueado"] = oUsuario;
+                return RedirectToAction("HomeEventos" , "Evento");
             }
             else
             {
                 ViewBag.MensajeError = "El usuario o la contraseña no son correctos";
                 return View();
             }
-        }
-
-        // GET : /RegistracionUsuario/HomeUsuario
-        public ActionResult HomeUsuario()
-        {
-            ViewBag.UsuarioLogueado = TempData["UsuarioLogueado"];
-            return View();
         }
     }
 }

@@ -541,10 +541,13 @@
     <Content Include="Views\Shared\_MiLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\RegistracionUsuario\RegistrarUsuario.cshtml" />
-    <Content Include="Views\RegistracionUsuario\HomeUsuario.cshtml" />
     <Content Include="Views\RegistracionUsuario\LoguearUsuario.cshtml" />
     <Content Include="Views\Evento\AgregarEvento.cshtml" />
     <Content Include="Views\Evento\HomeEventos.cshtml" />
+    <Content Include="Views\Shared\_MiLayoutLogueado.cshtml" />
+    <Content Include="Views\Evento\MisEventos.cshtml" />
+    <Content Include="Views\Evento\UnEvento.cshtml" />
+    <Content Include="Views\Home\Eventos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

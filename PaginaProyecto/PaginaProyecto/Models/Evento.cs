@@ -17,7 +17,9 @@ namespace PaginaProyecto.Models
         private MySqlConnection Conexiondb = new MySqlConnection("server=localhost; Uid=root; Password=Proyecto; Database=mydb; Port=3306");
 
         //propiedades de la clase
-        public int idEvento { get; set; }
+        public int EventoID { get; set; }
+
+        public int UsuarioID { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [StringLength(60, ErrorMessage = "El nombre del evento debe tener menos de 60 caracteres")]
@@ -37,21 +39,22 @@ namespace PaginaProyecto.Models
         [Display(Name = "Fecha en que termina la recaudacion (DD/MM/AAAA)")]
         public DateTime FechaTermina { get; set; }
 
-        public Usuario AdminEvento { get; set; }
-
         [Display(Name = "Embed de mapa")]
         public string EmbedUbicacion { get; set; }
 
         [Display (Name = "Imagen")]
         public HttpPostedFileBase Imagen { get; set; }
 
-        public int idsuarioAdmin { get; set; }
+        public string ImagenString { get; set; }
+
+        public Usuario UsuarioAdmin { get; set; }
 
         //metodos de la clase
 
         //inserta un evento en la DB
         public void InsertarEvento()
         {
+            MySqlConnection Conexiondb2 = new MySqlConnection("server=localhost; Uid=root; Password=Proyecto; Database=mydb; Port=3306");
             //abro conexion y declaro una transaccion
             Conexiondb.Open();
             MySqlTransaction tran = Conexiondb.BeginTransaction();
@@ -62,18 +65,37 @@ namespace PaginaProyecto.Models
                 consulta.CommandType = CommandType.StoredProcedure;
                 //Agrego los parametros
                 consulta.Parameters.AddWithValue("PNombreEvento", this.NombreEvento);
-                consulta.Parameters.AddWithValue("PDescripcion", this.Descripcion);
+                consulta.Parameters.AddWithValue("PDescripcion",  this.Descripcion);
                 consulta.Parameters.AddWithValue("PMeta", this.Meta);
                 consulta.Parameters.AddWithValue("PFechaTermina", this.FechaTermina);
                 consulta.Parameters.AddWithValue("PEmbedUbicacion", this.EmbedUbicacion);
-                consulta.Parameters.AddWithValue("PImagen", this.Imagen.ToString());
+                consulta.Parameters.AddWithValue("PImagen", this.ImagenString);
+                consulta.Parameters.AddWithValue("PUsuarioAdmin", this.UsuarioID);
 
                 //ejecuto la consulta que no devuelve nada
                 consulta.ExecuteNonQuery();
                 tran.Commit();
+                // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DB
+
+                MySqlTransaction tran2 = Conexiondb.BeginTransaction();
+                Conexiondb2.Open();
+                MySqlCommand consultaid = new MySqlCommand("ObtenerIdEvento", Conexiondb2, tran2);
+                consultaid.CommandType = CommandType.StoredProcedure;
+
+                //Agrego los parametros
+                consultaid.Parameters.AddWithValue("PENombreEvento", this.NombreEvento);
+
+                //ejecuto la consulta que no devuelve nada
+                MySqlDataReader dr = consultaid.ExecuteReader();
+                while (dr.Read())
+                {
+                    this.EventoID = Convert.ToInt32(dr["idEvento"].ToString());
+                }
+                tran2.Commit();
             }
             catch (Exception ex)
             {
+                tran.Rollback();
                 //este bloque de codigo va a manejar cualquier error que pudiera 
                 //ocurrir en el servidor que pudieran causar la falla del reintento,
                 //como por ejemplo una conexion cerrada.
@@ -81,6 +103,7 @@ namespace PaginaProyecto.Models
                 Console.WriteLine("  Message: {0}", ex.Message);
             }
             Conexiondb.Close();
+            Conexiondb2.Close();
         }
 
         //devuelve una lista de eventos que el usuario(id pasado como parametro) administra
@@ -97,22 +120,21 @@ namespace PaginaProyecto.Models
                 MySqlCommand consulta = new MySqlCommand("TraerEvento", Conexiondb, tran);
                 consulta.CommandType = CommandType.StoredProcedure;
                 //Agrego los parametros
-                consulta.Parameters.AddWithValue("PEmail", idEvento);
+                consulta.Parameters.AddWithValue("PIdUsuarioAdmin", idUsuarioAdmin);
 
                 //ejecuto la consulta y obtengo un iterable con registros
                 MySqlDataReader dr = consulta.ExecuteReader();
                 if (dr.Read())
                 {
                     Evento oEvento = new Evento();
-                    this.idEvento = Convert.ToInt32(dr["idEvento"]);
+                    this.EventoID = Convert.ToInt32(dr["idEvento"]);
                     this.NombreEvento = dr["NombreEvento"].ToString();
                     this.Descripcion = dr["Descripcion"].ToString();
                     this.Meta = Convert.ToInt32(dr["Meta"]);
                     this.FechaTermina = Convert.ToDateTime(dr["FechaTermina"]);
                     this.EmbedUbicacion = dr["EmbedUbicacion"].ToString();
-                    this.idsuarioAdmin = idUsuarioAdmin;
+                    this.UsuarioAdmin.UsuarioID = Convert.ToInt32(dr["UsuarioAdmin"].ToString());
                     listaEventos.Add(oEvento);
-
                 }
             }
             catch (Exception ex)
@@ -148,13 +170,14 @@ namespace PaginaProyecto.Models
                 if (dr.Read())
                 {
                     Evento oEvento = new Evento();
-                    oEvento.idEvento = Convert.ToInt32(dr["idEvento"]);
+                    oEvento.EventoID = Convert.ToInt32(dr["idEvento"]);
                     oEvento.NombreEvento = dr["NombreEvento"].ToString();
                     oEvento.Descripcion = dr["Descripcion"].ToString();
                     oEvento.Meta = Convert.ToInt32(dr["Meta"]);
                     oEvento.FechaTermina = Convert.ToDateTime(dr["FechaTermina"]);
                     oEvento.EmbedUbicacion = dr["EmbedUbicacion"].ToString();
-                    //oEvento.Imagen = Path.GetFileName(dr["Imagen"].ToString());
+                    oEvento.ImagenString = dr["Imagen"].ToString();
+
                     listaEventos.Add(oEvento);
 
                 }
@@ -171,6 +194,82 @@ namespace PaginaProyecto.Models
             }
             Conexiondb.Close();
             return listaEventos;
+        }
+
+        public bool ExisteEvento()
+        {
+            //abro conexion y declaro una transaccion
+            Conexiondb.Open();
+            MySqlTransaction tran = Conexiondb.BeginTransaction();
+            bool retorno = false;
+            try
+            {
+                // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DBConsulta.CommandType = CommandType.StoredProcedure;
+                MySqlCommand consulta = new MySqlCommand("ExisteEvento", Conexiondb, tran);
+                consulta.CommandType = CommandType.StoredProcedure;
+
+                //Agrego los parametros
+                consulta.Parameters.AddWithValue("PNombreEvento", this.NombreEvento);
+
+                //ejecuto la consulta y obtengo un iterable con registros
+                MySqlDataReader dr = consulta.ExecuteReader();
+                if (dr.Read())
+                {
+                    retorno = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                {
+                    //este bloque de codigo va a manejar cualquier error que pudieran 
+                    //ocurrir en el servidor que pudieran causar la falla del reintento,
+                    //como por ejemplo una conexion cerrada.
+                    Console.WriteLine("Rollback Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+                }
+            }
+            Conexiondb.Close();
+            return retorno;
+        }
+
+        public void TraerEvento()
+        {
+            //abro conexion y declaro una transaccion
+            Conexiondb.Open();
+            MySqlTransaction tran = Conexiondb.BeginTransaction();
+            try
+            {
+
+                // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DBConsulta.CommandType = CommandType.StoredProcedure;
+                MySqlCommand consulta = new MySqlCommand("TraerEvento", Conexiondb, tran);
+                consulta.CommandType = CommandType.StoredProcedure;
+
+                //Agrego los parametros
+                consulta.Parameters.AddWithValue("PIdEvento", this.EventoID);
+
+                //ejecuto la consulta y obtengo un iterable con registros
+                MySqlDataReader dr = consulta.ExecuteReader();
+                if (dr.Read())
+                {
+                    this.NombreEvento = dr["NombreEvento"].ToString();
+                    this.Meta = Convert.ToInt32(dr["Meta"]);
+                    this.ImagenString = dr["Imagen"].ToString();
+                    this.EmbedUbicacion = dr["EmbedUbicacion"].ToString();
+                    this.Descripcion = dr["Descripcion"].ToString();
+                    this.FechaTermina = Convert.ToDateTime(dr["FechaTermina"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                {
+                    //este bloque de codigo va a manejar cualquier error que pudieran 
+                    //ocurrir en el servidor que pudieran causar la falla del reintento,
+                    //como por ejemplo una conexion cerrada.
+                    Console.WriteLine("Rollback Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+                }
+            }
+            Conexiondb.Close();
         }
     }
 }

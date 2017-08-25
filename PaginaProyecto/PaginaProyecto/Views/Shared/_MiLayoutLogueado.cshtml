@@ -1,11 +1,10 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/MiEstilo/css/")agency.css" >
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/MiEstilo/css/")agency.css">
 
     <link href="@Url.Content("~/Content/")bootstrap.min.css" rel="stylesheet">
 
@@ -37,18 +36,18 @@
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="@Url.Action("Eventos", "Evento")">EVENTOS</a>
+                        <a class="page-scroll" href="@Url.Action("HomeEventos", "Evento")">EVENTOS</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#portfolio">COMO DONAR</a>
                     </li>
                     <li>
                         <div class="dropdown">
-                            <img src="@Url.Content("~/Content/MiEstilo/img/logos/")Iconousuario.png" class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top: 0px">
+                            <img src="@Url.Content("~/Content/Usuarios/")@ViewBag.Usuario.ImagenString" class="btn dropdown-toggle img-circle" type="button" data-toggle="dropdown" style="margin-top: 0px; width:70px; border-radius:100px">
                             <ul class="dropdown-menu" style="background-color: #fec503;">
-                              <li><a href="@Url.Action("HomeUsuario", "RegistracionUsuario")">Mi Perfil</a></li>
-                              <li><a href="@Url.Action("Eventos", "Evento")">Mis Eventos</a></li>
-                              <li><a href="@Url.Action("Index", "Home")" >Cerrar Sesion</a></li>
+                                <li><a href="@Url.Action("HomeUsuario", "RegistracionUsuario")">Mi Perfil</a></li>
+                                <li><a href="@Url.Action("MisEventos", "Eventos")">Mis Eventos</a></li>
+                                <li><a href="@Url.Action("Index", "Home")">Cerrar Sesion</a></li>
                             </ul>
                         </div>
                     </li>
@@ -76,3 +75,4 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+

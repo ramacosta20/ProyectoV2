@@ -12,7 +12,10 @@ namespace PaginaProyecto.Controllers
         {
             return View();
         }
-     
+        public ActionResult Eventos()
+        {
+            return View();
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
