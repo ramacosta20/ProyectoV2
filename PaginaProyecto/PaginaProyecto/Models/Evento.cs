@@ -167,7 +167,7 @@ namespace PaginaProyecto.Models
 
                 //ejecuto la consulta y obtengo un iterable con registros
                 MySqlDataReader dr = consulta.ExecuteReader();
-                if (dr.Read())
+                while(dr.Read())
                 {
                     Evento oEvento = new Evento();
                     oEvento.EventoID = Convert.ToInt32(dr["idEvento"]);

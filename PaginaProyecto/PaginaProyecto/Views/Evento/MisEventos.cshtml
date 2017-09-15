@@ -1,6 +1,34 @@
-﻿@model PaginaProyecto.Models.Evento
+﻿@using PaginaProyecto.Models
+@model Evento
 @{
-    ViewBag.Title = "Eventos";
+    ViewBag.Title = "MisEventos";
     Layout = "~/Views/Shared/_MiLayoutLogueado.cshtml";
 }
-<h3 class="col-md-12" style="text-align:center; margin-top:10%;">Futuro mis eventos</h3>
+<div class="row container-fluid">
+    @if (ViewBag.NoHayEventos == true)
+    {
+        <h3 class="col-xs-9 col-md-9" style="text-align:center; margin-top:10%;">No hay eventos para mostrar</h3>
+    }
+    else
+    {
+        <h3 class="col-xs-9 col-md-9" style="text-align:center; margin-top:10%;">Eventos</h3>
+    }
+    <a href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-plus col-xs-2 col-md-2" aria-hidden="true" style="margin-top:10%;"></span></a>
+</div>
+
+
+@{
+    if (ViewBag.NoHayEventos == false)
+    {
+        List<Evento> listaEventos = ViewBag.listaEventosUsuario;
+        foreach (Evento oEvento in listaEventos)
+        {
+            <div class="jumbotron  col-md-5" style="text-align: center">
+                <img src="@Url.Content("~/Content/Eventos/")@oEvento.ImagenString" alt="cancer" class="img-thumbnail" />
+                <h5>@oEvento.NombreEvento</h5>
+                @Html.ActionLink("Ver más", "UnEvento", "Evento", new { idEvento = oEvento.EventoID }, null)
+            </div>
+                <div col-md-2></div>
+        }
+    }
+}

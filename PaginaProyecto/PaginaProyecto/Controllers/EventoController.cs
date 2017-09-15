@@ -10,6 +10,24 @@ namespace PaginaProyecto.Controllers
 {
     public class EventoController : Controller
     {
+        public ActionResult MisEventos()
+        {
+            ViewBag.NoHayEventos = false;
+            Evento oEvento = new Evento();
+            Usuario oUsuario = (Usuario)Session["UsuarioLogueado"];
+            List<Evento> listaEventos = oEvento.ListarEventosUsuario(oUsuario.UsuarioID);
+            if (listaEventos.Count > 0)
+            {
+                ViewBag.listaEventosUsuario = listaEventos;
+
+            }
+            else
+            {
+                ViewBag.NoHayEventos = true;
+            }
+            ViewBag.Usuario = oUsuario;
+            return View();
+        }
         // GET: Evento
         public ActionResult AgregarEvento()
         {
@@ -38,6 +56,8 @@ namespace PaginaProyecto.Controllers
                 else
                 {
                     oEvento.ImagenString = "default.gif";
+                    oEvento.UsuarioID = oUsuario.UsuarioID;
+                    oEvento.InsertarEvento();
                 }
                 TempData["EventoCreado"] = oEvento;
                 return RedirectToAction("UnEvento", new { idEvento = -1});
@@ -68,10 +88,6 @@ namespace PaginaProyecto.Controllers
             ViewBag.Usuario = Session["UsuarioLogueado"];
             return View();
         }
-        public ActionResult MisEventos()
-        {
-            return View();
-        }
 
         public ActionResult UnEvento(int idEvento) {
             Evento oEvento = new Evento();
@@ -85,6 +101,7 @@ namespace PaginaProyecto.Controllers
                 oEvento = (Evento)TempData["EventoCreado"];
             }
             ViewBag.unEvento = oEvento;
+            ViewBag.Usuario = Session["UsuarioLogueado"];
             return View();
         }
 
