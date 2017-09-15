@@ -13,6 +13,7 @@ namespace PaginaProyecto.Controllers
         // GET: Evento
         public ActionResult AgregarEvento()
         {
+            ViewBag.Usuario = Session["UsuarioLogueado"];
             return View();
         }
 

@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_MiLayoutLogueado.cshtml";
 }
 <body>
+    
     <div class="container-fluid row">
         <h2 class="col-md-12" style="padding:20px;">Agregar Evento</h2>
     </div>
@@ -11,7 +12,7 @@
         @using (Html.BeginForm("AgregarEvento", "Evento", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal Container", role = "form" }))
         {
             @Html.AntiForgeryToken()
-
+            
             @Html.ValidationSummary("", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(x => x.NombreEvento, new { @class = "col-md-2 control-label" })
@@ -61,7 +62,6 @@
             </div>
         }
     </div>
-
 </body>
 
 
