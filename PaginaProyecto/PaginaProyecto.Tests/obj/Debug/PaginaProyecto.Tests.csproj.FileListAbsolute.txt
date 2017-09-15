@@ -55,6 +55,9 @@ E:\PaginaProyecto\PaginaProyecto.Tests\obj\Debug\PaginaProyecto.Tests.csprojReso
 E:\PaginaProyecto\PaginaProyecto.Tests\obj\Debug\PaginaProyecto.Tests.dll
 E:\PaginaProyecto\PaginaProyecto.Tests\obj\Debug\PaginaProyecto.Tests.pdb
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\xunit.abstractions.dll
+C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\xunit.runner.visualstudio.testadapter.dll
+C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\xunit.runner.utility.net35.dll
+C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\xunit.runner.reporters.net452.dll
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\roslyn\csc.exe
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -67,9 +70,6 @@ C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\roslyn\Sys
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\roslyn\vbc.exe
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\roslyn\VBCSCompiler.exe
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\roslyn\VBCSCompiler.exe.config
-C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\xunit.runner.visualstudio.testadapter.dll
-C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\xunit.runner.utility.net35.dll
-C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\xunit.runner.reporters.net452.dll
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\PaginaProyecto.Tests.dll.config
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\PaginaProyecto.Tests.dll
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\PaginaProyecto.Tests.pdb
@@ -103,7 +103,6 @@ C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\Nethereum.
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\crypto.dll
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\PaginaProyecto.pdb
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\PaginaProyecto.dll.config
-C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\Newtonsoft.Json.xml
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\System.Web.Helpers.xml
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\System.Web.Mvc.xml
 C:\Hernan\Proyectofinal\PaginaProyecto\PaginaProyecto.Tests\bin\Debug\System.Web.Razor.xml

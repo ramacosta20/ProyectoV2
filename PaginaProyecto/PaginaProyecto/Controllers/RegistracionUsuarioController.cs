@@ -38,7 +38,7 @@ namespace PaginaProyecto.Controllers
                 }
                 oUsuario.InsertarUsuario();
                 Session["UsuarioLogueado"] = oUsuario;
-                return RedirectToAction("HomeUsuario");
+                return RedirectToAction("HomeEventos", "Evento");
             }
             
             else

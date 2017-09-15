@@ -1,7 +1,7 @@
 ﻿@model PaginaProyecto.Models.Evento
 @{
     ViewBag.Title = "AgregarEvento";
-    Layout = "~/Views/Shared/_MiLayout.cshtml";
+    Layout = "~/Views/Shared/_MiLayoutLogueado.cshtml";
 }
 <body>
     <div class="container-fluid row">
@@ -12,7 +12,6 @@
         {
             @Html.AntiForgeryToken()
 
-            <p class="text-danger">@ViewBag.NombreUsado</p>
             @Html.ValidationSummary("", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(x => x.NombreEvento, new { @class = "col-md-2 control-label" })
@@ -37,27 +36,10 @@
             <div class="form-group">
                 @Html.LabelFor(x => x.FechaTermina, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(x => x.FechaTermina, new { @class = "form-control" })
+                    @Html.TextBoxFor(x => x.FechaTermina, new { type = "date", @class = "form-control" })
                 </div>
             </div>
 
-            <!--div class="container">
-                <div class="row">
-                    <div class='col-sm-6'>
-                        <div class="form-group">
-                            <div class='input-group date' >
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                                <input type='text' id='datepicker' class="form-control">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </!--div>-->
-
-            <!--<p>Date: <input type="text" id="datepicker"></p>-->
             <div class="form-group">
                 @Html.LabelFor(x => x.EmbedUbicacion, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
