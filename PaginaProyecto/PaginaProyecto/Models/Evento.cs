@@ -117,23 +117,23 @@ namespace PaginaProyecto.Models
             {
                 
                 // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DBConsulta.CommandType = CommandType.StoredProcedure;
-                MySqlCommand consulta = new MySqlCommand("TraerEvento", Conexiondb, tran);
+                MySqlCommand consulta = new MySqlCommand("ListarEventosUsuario", Conexiondb, tran);
                 consulta.CommandType = CommandType.StoredProcedure;
                 //Agrego los parametros
                 consulta.Parameters.AddWithValue("PIdUsuarioAdmin", idUsuarioAdmin);
 
                 //ejecuto la consulta y obtengo un iterable con registros
                 MySqlDataReader dr = consulta.ExecuteReader();
-                if (dr.Read())
+                while(dr.Read())
                 {
                     Evento oEvento = new Evento();
-                    this.EventoID = Convert.ToInt32(dr["idEvento"]);
-                    this.NombreEvento = dr["NombreEvento"].ToString();
-                    this.Descripcion = dr["Descripcion"].ToString();
-                    this.Meta = Convert.ToInt32(dr["Meta"]);
-                    this.FechaTermina = Convert.ToDateTime(dr["FechaTermina"]);
-                    this.EmbedUbicacion = dr["EmbedUbicacion"].ToString();
-                    this.UsuarioAdmin.UsuarioID = Convert.ToInt32(dr["UsuarioAdmin"].ToString());
+                    oEvento.EventoID = Convert.ToInt32(dr["idEvento"]);
+                    oEvento.NombreEvento = dr["NombreEvento"].ToString();
+                    oEvento.Descripcion = dr["Descripcion"].ToString();
+                    oEvento.Meta = Convert.ToInt32(dr["Meta"]);
+                    oEvento.FechaTermina = Convert.ToDateTime(dr["FechaTermina"]);
+                    oEvento.EmbedUbicacion = dr["EmbedUbicacion"].ToString();
+                    oEvento.ImagenString = dr["Imagen"].ToString();
                     listaEventos.Add(oEvento);
                 }
             }

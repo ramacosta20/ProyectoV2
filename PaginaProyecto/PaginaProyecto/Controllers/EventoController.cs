@@ -19,7 +19,6 @@ namespace PaginaProyecto.Controllers
             if (listaEventos.Count > 0)
             {
                 ViewBag.listaEventosUsuario = listaEventos;
-
             }
             else
             {

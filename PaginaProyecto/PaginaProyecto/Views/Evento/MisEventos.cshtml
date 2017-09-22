@@ -4,31 +4,30 @@
     ViewBag.Title = "MisEventos";
     Layout = "~/Views/Shared/_MiLayoutLogueado.cshtml";
 }
-<div class="row container-fluid">
+<div class="container-fluid">
     @if (ViewBag.NoHayEventos == true)
     {
         <h3 class="col-xs-9 col-md-9" style="text-align:center; margin-top:10%;">No hay eventos para mostrar</h3>
+        <a href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-plus" aria-hidden="true" style=""></span></a>
     }
     else
     {
-        <h3 class="col-xs-9 col-md-9" style="text-align:center; margin-top:10%;">Eventos</h3>
+        <h3 class="" style="text-align:center; margin-top:10%;">Mis Eventos</h3>
+        <a href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-plus" aria-hidden="true" style=""></span></a>
     }
-    <a href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-plus col-xs-2 col-md-2" aria-hidden="true" style="margin-top:10%;"></span></a>
 </div>
-
-
 @{
     if (ViewBag.NoHayEventos == false)
     {
         List<Evento> listaEventos = ViewBag.listaEventosUsuario;
         foreach (Evento oEvento in listaEventos)
         {
-            <div class="jumbotron  col-md-5" style="text-align: center">
-                <img src="@Url.Content("~/Content/Eventos/")@oEvento.ImagenString" alt="cancer" class="img-thumbnail" />
+            <div class="jumbotron  col-lg-4 col-md-6" style="text-align: center; margin-left: 10%">
+                <img src="@Url.Content("~/Content/Eventos/")@oEvento.ImagenString" alt="foto" class="img-thumbnail" />
                 <h5>@oEvento.NombreEvento</h5>
-                @Html.ActionLink("Ver más", "UnEvento", "Evento", new { idEvento = oEvento.EventoID }, null)
+                <button type="button" class="btn btn-warning">@Html.ActionLink("Ver más", "UnEvento", "Evento", new { idEvento = oEvento.EventoID }, null)</button>
             </div>
-                <div col-md-2></div>
+            <div col-md-2></div>
         }
     }
 }
