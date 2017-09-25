@@ -49,6 +49,8 @@ namespace PaginaProyecto.Models
 
         public Usuario UsuarioAdmin { get; set; }
 
+        public bool EnFecha { get; set; }
+
         //metodos de la clase
 
         //inserta un evento en la DB
@@ -134,6 +136,7 @@ namespace PaginaProyecto.Models
                     oEvento.FechaTermina = Convert.ToDateTime(dr["FechaTermina"]);
                     oEvento.EmbedUbicacion = dr["EmbedUbicacion"].ToString();
                     oEvento.ImagenString = dr["Imagen"].ToString();
+                    oEvento.EstaEnFecha();
                     listaEventos.Add(oEvento);
                 }
             }
@@ -177,9 +180,8 @@ namespace PaginaProyecto.Models
                     oEvento.FechaTermina = Convert.ToDateTime(dr["FechaTermina"]);
                     oEvento.EmbedUbicacion = dr["EmbedUbicacion"].ToString();
                     oEvento.ImagenString = dr["Imagen"].ToString();
-
+                    oEvento.EstaEnFecha();
                     listaEventos.Add(oEvento);
-
                 }
             }
             catch (Exception ex)
@@ -271,5 +273,18 @@ namespace PaginaProyecto.Models
             }
             Conexiondb.Close();
         }
+
+        public void EstaEnFecha()
+        {
+            if (FechaTermina > DateTime.Now)
+            {
+                EnFecha = true;
+            }
+            else
+            {
+                EnFecha = false;
+            }
+        }
+
     }
 }

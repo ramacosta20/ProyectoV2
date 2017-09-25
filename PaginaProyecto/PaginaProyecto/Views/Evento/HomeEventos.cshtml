@@ -2,7 +2,14 @@
 @model Evento
 @{
     ViewBag.Title = "Eventos";
-    Layout = "~/Views/Shared/_MiLayoutLogueado.cshtml";
+    if (ViewBag.Usuario == null)
+    {
+        Layout = "~/Views/Shared/_MiLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_MiLayoutLogueado.cshtml";
+    }
 }
 <div class="container-fluid">
     @if (ViewBag.NoHayEventos == true)
@@ -23,6 +30,16 @@
         foreach (Evento oEvento in listaEventos)
         {
             <div class="jumbotron  col-lg-4 col-md-6" style="text-align: center; margin-left: 10%">
+                @{
+                    if (oEvento.EnFecha == true)
+                    {
+                        <span class="label label-success">Recaudando</span>
+                    }
+                    else
+                    {
+                        <span class="label label-danger">Recaudacion Finalizada</span>
+                    }
+                }
                 <img src="@Url.Content("~/Content/Eventos/")@oEvento.ImagenString" alt="foto" class="img-thumbnail" />
                 <h5>@oEvento.NombreEvento</h5>
                 @Html.ActionLink("Ver más", "UnEvento", "Evento", new { idEvento = oEvento.EventoID }, null)

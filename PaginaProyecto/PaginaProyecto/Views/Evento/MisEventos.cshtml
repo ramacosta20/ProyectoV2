@@ -23,9 +23,19 @@
         foreach (Evento oEvento in listaEventos)
         {
             <div class="jumbotron  col-lg-4 col-md-6" style="text-align: center; margin-left: 10%">
+                @{
+                    if (oEvento.EnFecha == true)
+                    {
+                        <span class="label label-success">Recaudando</span>
+                    }
+                    else
+                    {
+                        <span class="label label-danger">Recaudacion Finalizada</span>
+                    }
+                }
                 <img src="@Url.Content("~/Content/Eventos/")@oEvento.ImagenString" alt="foto" class="img-thumbnail" />
                 <h5>@oEvento.NombreEvento</h5>
-                <button type="button" class="btn btn-warning">@Html.ActionLink("Ver más", "UnEvento", "Evento", new { idEvento = oEvento.EventoID }, null)</button>
+                @Html.ActionLink("Ver más", "UnEvento", "Evento", new { idEvento = oEvento.EventoID }, null)
             </div>
             <div col-md-2></div>
         }

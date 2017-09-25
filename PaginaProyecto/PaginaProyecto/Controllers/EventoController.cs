@@ -100,7 +100,8 @@ namespace PaginaProyecto.Controllers
                 oEvento = (Evento)TempData["EventoCreado"];
             }
             ViewBag.unEvento = oEvento;
-            ViewBag.Usuario = Session["UsuarioLogueado"];
+            Usuario oUsuario = (Usuario)Session["UsuarioLogueado"];
+            ViewBag.Usuario = oUsuario;
             return View();
         }
 

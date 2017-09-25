@@ -9,6 +9,14 @@ namespace PaginaProyecto.Controllers
 {
     public class RegistracionUsuarioController : Controller
     {
+        // GET: RegistracionUsuario/MiPerfil/
+        public ActionResult MiPerfil()
+        {
+            Usuario oUsuario = (Usuario)Session["UsuarioLogueado"];
+            ViewBag.Usuario = oUsuario;
+            return View();
+        }
+
         // GET: RegistracionUsuario/RegistrarUsuario/
         public ActionResult RegistrarUsuario()
         {
