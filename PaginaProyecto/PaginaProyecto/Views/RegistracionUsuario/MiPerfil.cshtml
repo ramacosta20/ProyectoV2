@@ -1,8 +1,14 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "MiPerfil";
     Layout = "~/Views/Shared/_MiLayoutLogueado.cshtml";
 }
-
-<h2>@ViewBag.Usuario.Nombre  @ViewBag.Usuario.Apellido</h2>
-
+<div style="margin-top: 7%" class="container">
+    <div class="col-md-5" style="background-color:#e3e3e3; border-radius: 5px">
+        <div class="container">
+            </br>
+            <img src="@Url.Content("~/Content/Usuarios/")@ViewBag.Usuario.ImagenString" class="img-thumbnail">
+            <h3>@ViewBag.Usuario.Nombre  @ViewBag.Usuario.Apellido</h3>
+            <h3>@ViewBag.Usuario.Email</h3>
+        </div>
+    </div>
+</div>

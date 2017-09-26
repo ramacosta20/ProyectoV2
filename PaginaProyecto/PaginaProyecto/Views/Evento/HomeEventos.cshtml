@@ -11,26 +11,28 @@
         Layout = "~/Views/Shared/_MiLayoutLogueado.cshtml";
     }
 }
-<div class="container-fluid">
+<div style="margin-top: -4%">
     @if (ViewBag.NoHayEventos == true)
     {
-        <h3 class="col-xs-9 col-md-9" style="text-align:center; margin-top:10%;">No hay eventos para mostrar</h3>
-        <a href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-plus" aria-hidden="true" style=""></span></a>
+        <div class="row container">
+            <h3 class="col-md-9" style="text-align:center; margin-top:10%;">No hay eventos para mostrar</h3>
+        </div>
     }
     else
-    {
-        <h3 class="" style="text-align:center; margin-top:10%;">Mis Eventos</h3>
-        <a href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-plus" aria-hidden="true" style=""></span></a>
+    {   <div class="row container">
+        <h3 class="col-md-9 col-sm-9 col-xs-9" style="text-align:center; margin-top:10%;">Eventos</h3>
+    </div>
     }
 </div>
+
 @{
     if (ViewBag.NoHayEventos == false)
     {
         List<Evento> listaEventos = ViewBag.ListaEventos;
         foreach (Evento oEvento in listaEventos)
         {
-            <div class="jumbotron  col-lg-4 col-md-6" style="text-align: center; margin-left: 10%">
-                @{
+            <div class="jumbotron col-lg-offset-1 col-lg-4 col-md-offset-1 col-md-4" style="text-align: center">
+                @{  
                     if (oEvento.EnFecha == true)
                     {
                         <span class="label label-success">Recaudando</span>
@@ -40,11 +42,11 @@
                         <span class="label label-danger">Recaudacion Finalizada</span>
                     }
                 }
-                <img src="@Url.Content("~/Content/Eventos/")@oEvento.ImagenString" alt="foto" class="img-thumbnail" />
+                <img src="@Url.Content("~/Content/Eventos/")@oEvento.ImagenString" alt="foto" class="img-thumbnail"/>
                 <h5>@oEvento.NombreEvento</h5>
-                @Html.ActionLink("Ver más", "UnEvento", "Evento", new { idEvento = oEvento.EventoID }, null)
+                <a href="/Evento/UnEvento?idEvento=@oEvento.EventoID" class="btn btn-warning btn-lg" role="button" aria-pressed="true">Ver más</a>
             </div>
-            <div col-md-2></div>
+            <div class="col-lg-1 col-md-1"></div>
         }
     }
 }

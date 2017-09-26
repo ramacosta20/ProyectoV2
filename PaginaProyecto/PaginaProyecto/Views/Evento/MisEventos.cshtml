@@ -4,40 +4,56 @@
     ViewBag.Title = "MisEventos";
     Layout = "~/Views/Shared/_MiLayoutLogueado.cshtml";
 }
-<div class="container-fluid">
-    @if (ViewBag.NoHayEventos == true)
-    {
-        <h3 class="col-xs-9 col-md-9" style="text-align:center; margin-top:10%;">No hay eventos para mostrar</h3>
-        <a href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-plus" aria-hidden="true" style=""></span></a>
-    }
-    else
-    {
-        <h3 class="" style="text-align:center; margin-top:10%;">Mis Eventos</h3>
-        <a href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-plus" aria-hidden="true" style=""></span></a>
-    }
-</div>
-@{
-    if (ViewBag.NoHayEventos == false)
-    {
-        List<Evento> listaEventos = ViewBag.listaEventosUsuario;
-        foreach (Evento oEvento in listaEventos)
+<div style="margin-top: -4%">
+        @if (ViewBag.NoHayEventos == true)
         {
-            <div class="jumbotron  col-lg-4 col-md-6" style="text-align: center; margin-left: 10%">
-                @{
-                    if (oEvento.EnFecha == true)
-                    {
-                        <span class="label label-success">Recaudando</span>
-                    }
-                    else
-                    {
-                        <span class="label label-danger">Recaudacion Finalizada</span>
-                    }
-                }
-                <img src="@Url.Content("~/Content/Eventos/")@oEvento.ImagenString" alt="foto" class="img-thumbnail" />
-                <h5>@oEvento.NombreEvento</h5>
-                @Html.ActionLink("Ver más", "UnEvento", "Evento", new { idEvento = oEvento.EventoID }, null)
+            <div class="row container">
+                <h3 class="col-md-9" style="text-align:center; margin-top:10%;">No hay eventos para mostrar</h3>
+                <a class="col-md-2" href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-plus" aria-hidden="true" style="padding-top: 75%;"></span></a>
             </div>
-            <div col-md-2></div>
+        }
+        else
+        {   <div class="row container">
+                <h3 class="col-md-9" style="text-align:center; margin-top:10%;">Mis Eventos</h3>
+                <a class="col-md-2" href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-plus" aria-hidden="true" style="padding-top: 75%;"></span></a>
+            </div>
+        }
+    </div>
+    @{
+        if (ViewBag.NoHayEventos == false)
+        {
+            List<Evento> listaEventos = ViewBag.listaEventosUsuario;
+            foreach (Evento oEvento in listaEventos)
+            {
+                <div class="jumbotron  col-lg-4 col-md-6" style="text-align: center; margin-left: 10%">
+                    <div class="row">
+                        <div class="col-md-8">
+                            @{
+                                if (oEvento.EnFecha == true)
+                                {
+                                    <span class="label label-success">Recaudando</span>
+                                }
+                                else
+                                {
+                                    <span class="label label-danger">Recaudacion Finalizada</span>
+                                }
+                            }
+                        </div>
+                        <div class="col-md-2">
+                            <!--Bomba cambiar por editar evento-->
+                            <a href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: #46b8da;"></span></a>
+                        </div>
+                        <div class="col-md-2">
+                            <!--Bomba cambiar por eliminar evento-->
+                            <a href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="color: #d9534f;"></span></a>
+                        </div>
+                    </div>
+                
+                    <img src="@Url.Content("~/Content/Eventos/")@oEvento.ImagenString" alt="foto" class="img-thumbnail" />
+                    <h5>@oEvento.NombreEvento</h5>
+                    <a href="/Evento/UnEvento?idEvento=@oEvento.EventoID" class="btn btn-warning btn-lg" role="button" aria-pressed="true">Ver más</a>
+                </div>
+            }
         }
     }
-}
+</div>

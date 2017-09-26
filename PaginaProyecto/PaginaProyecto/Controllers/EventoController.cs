@@ -30,7 +30,7 @@ namespace PaginaProyecto.Controllers
         // GET: Evento
         public ActionResult AgregarEvento()
         {
-            ViewBag.Usuario = Session["UsuarioLogueado"];
+            ViewBag.Usuario = (Usuario)Session["UsuarioLogueado"];
             return View();
         }
 
@@ -40,6 +40,7 @@ namespace PaginaProyecto.Controllers
         public ActionResult AgregarEvento(Evento oEvento)
         {
             Usuario oUsuario = (Usuario)Session["UsuarioLogueado"];
+            ViewBag.Usuario = oUsuario;
             bool nombreInvalido = oEvento.ExisteEvento();
             if (ModelState.IsValid && nombreInvalido == false)
             {
@@ -84,7 +85,8 @@ namespace PaginaProyecto.Controllers
             {
                 ViewBag.NoHayEventos = true;
             }
-            ViewBag.Usuario = Session["UsuarioLogueado"];
+            Usuario oUsuario = (Usuario)Session["UsuarioLogueado"];
+            ViewBag.Usuario = oUsuario;
             return View();
         }
 

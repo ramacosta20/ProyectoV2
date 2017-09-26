@@ -46,7 +46,7 @@ namespace PaginaProyecto.Controllers
                 }
                 oUsuario.InsertarUsuario();
                 Session["UsuarioLogueado"] = oUsuario;
-                return RedirectToAction("HomeEventos", "Evento");
+                return RedirectToAction("MiPerfil", "RegistracionUsuario");
             }
             
             else
@@ -74,7 +74,7 @@ namespace PaginaProyecto.Controllers
             if (oUsuario.Nombre != null)
             {
                 Session["UsuarioLogueado"] = oUsuario;
-                return RedirectToAction("HomeEventos" , "Evento");
+                return RedirectToAction("MiPerfil" , "RegistracionUsuario");
             }
             else
             {

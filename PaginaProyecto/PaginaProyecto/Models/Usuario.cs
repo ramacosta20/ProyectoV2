@@ -56,7 +56,6 @@ namespace PaginaProyecto.Models
         //Agrega el usuario que ejecuta el metodo a la base de datos
         public void InsertarUsuario()
         {
-            int idUsuario = 0;
             //abro conexion y declaro una transaccion
             Conexiondb.Open();
             MySqlTransaction tran = Conexiondb.BeginTransaction();
@@ -78,10 +77,10 @@ namespace PaginaProyecto.Models
 
                 // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DB
                 MySqlCommand consultaId = new MySqlCommand("ObtenerIdUsuario", Conexiondb, tran);
-                consulta.CommandType = CommandType.StoredProcedure;
-                //Agrego los parametros
-            
-                consulta.Parameters.AddWithValue("PEmail", this.Email);
+                consultaId.CommandType = CommandType.StoredProcedure;
+
+                //agrego los parametros
+                consultaId.Parameters.AddWithValue("PEEmail", this.Email);
 
                 //ejecuto la consulta que no devuelve nada
                 MySqlDataReader dr =consultaId.ExecuteReader();
@@ -89,7 +88,6 @@ namespace PaginaProyecto.Models
                 {
                     this.UsuarioID = Convert.ToInt32(dr["idUsuario"].ToString());
                 }
-                tran.Commit();
             }
             catch (Exception ex)
             {
