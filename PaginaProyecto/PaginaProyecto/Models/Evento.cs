@@ -42,7 +42,7 @@ namespace PaginaProyecto.Models
         [Display(Name = "Embed de mapa")]
         public string EmbedUbicacion { get; set; }
 
-        [Display (Name = "Imagen")]
+        [Display(Name = "Imagen")]
         public HttpPostedFileBase Imagen { get; set; }
 
         public string ImagenString { get; set; }
@@ -67,10 +67,9 @@ namespace PaginaProyecto.Models
                 consulta.CommandType = CommandType.StoredProcedure;
                 //Agrego los parametros
                 consulta.Parameters.AddWithValue("PNombreEvento", this.NombreEvento);
-                consulta.Parameters.AddWithValue("PDescripcion",  this.Descripcion);
+                consulta.Parameters.AddWithValue("PDescripcion", this.Descripcion);
                 consulta.Parameters.AddWithValue("PMeta", this.Meta);
                 consulta.Parameters.AddWithValue("PFechaTermina", this.FechaTermina);
-                consulta.Parameters.AddWithValue("PEmbedUbicacion", this.EmbedUbicacion);
                 consulta.Parameters.AddWithValue("PImagen", this.ImagenString);
                 consulta.Parameters.AddWithValue("PUsuarioAdmin", this.UsuarioID);
 
@@ -117,7 +116,7 @@ namespace PaginaProyecto.Models
             List<Evento> listaEventos = new List<Evento>();
             try
             {
-                
+
                 // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DBConsulta.CommandType = CommandType.StoredProcedure;
                 MySqlCommand consulta = new MySqlCommand("ListarEventosUsuario", Conexiondb, tran);
                 consulta.CommandType = CommandType.StoredProcedure;
@@ -126,7 +125,7 @@ namespace PaginaProyecto.Models
 
                 //ejecuto la consulta y obtengo un iterable con registros
                 MySqlDataReader dr = consulta.ExecuteReader();
-                while(dr.Read())
+                while (dr.Read())
                 {
                     Evento oEvento = new Evento();
                     oEvento.EventoID = Convert.ToInt32(dr["idEvento"]);
@@ -134,7 +133,6 @@ namespace PaginaProyecto.Models
                     oEvento.Descripcion = dr["Descripcion"].ToString();
                     oEvento.Meta = Convert.ToInt32(dr["Meta"]);
                     oEvento.FechaTermina = Convert.ToDateTime(dr["FechaTermina"]);
-                    oEvento.EmbedUbicacion = dr["EmbedUbicacion"].ToString();
                     oEvento.ImagenString = dr["Imagen"].ToString();
                     oEvento.EstaEnFecha();
                     listaEventos.Add(oEvento);
@@ -170,7 +168,7 @@ namespace PaginaProyecto.Models
 
                 //ejecuto la consulta y obtengo un iterable con registros
                 MySqlDataReader dr = consulta.ExecuteReader();
-                while(dr.Read())
+                while (dr.Read())
                 {
                     Evento oEvento = new Evento();
                     oEvento.EventoID = Convert.ToInt32(dr["idEvento"]);
@@ -178,7 +176,6 @@ namespace PaginaProyecto.Models
                     oEvento.Descripcion = dr["Descripcion"].ToString();
                     oEvento.Meta = Convert.ToInt32(dr["Meta"]);
                     oEvento.FechaTermina = Convert.ToDateTime(dr["FechaTermina"]);
-                    oEvento.EmbedUbicacion = dr["EmbedUbicacion"].ToString();
                     oEvento.ImagenString = dr["Imagen"].ToString();
                     oEvento.EstaEnFecha();
                     listaEventos.Add(oEvento);
@@ -256,7 +253,6 @@ namespace PaginaProyecto.Models
                     this.NombreEvento = dr["NombreEvento"].ToString();
                     this.Meta = Convert.ToInt32(dr["Meta"]);
                     this.ImagenString = dr["Imagen"].ToString();
-                    this.EmbedUbicacion = dr["EmbedUbicacion"].ToString();
                     this.Descripcion = dr["Descripcion"].ToString();
                     this.FechaTermina = Convert.ToDateTime(dr["FechaTermina"]);
                 }

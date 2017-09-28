@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `mydb` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `mydb`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: mydb
@@ -37,7 +39,7 @@ CREATE TABLE `evento` (
   UNIQUE KEY `NombreEvento_UNIQUE` (`NombreEvento`),
   KEY `fk_evento_usuarios_idx` (`UsuarioAdmin`),
   CONSTRAINT `fk_evento_usuarios` FOREIGN KEY (`UsuarioAdmin`) REFERENCES `usuarios` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +48,7 @@ CREATE TABLE `evento` (
 
 LOCK TABLES `evento` WRITE;
 /*!40000 ALTER TABLE `evento` DISABLE KEYS */;
-INSERT INTO `evento` VALUES (36,'hola','fggb',4,'2018-10-14 00:00:00',NULL,'DSCN7618.JPG',1,00000000000),(39,'Aprobamos proyecto','aaaaaaaaaa',123,'2015-05-11 00:00:00',NULL,'DSCN8711.JPG',1,00000000000),(41,'evento mapuche','ramapuche',10,'2017-11-11 00:00:00',NULL,'DSCN7615.JPG',17,00000000000);
+INSERT INTO `evento` VALUES (36,'hola','fggb',4,'2018-10-14 00:00:00',NULL,'DSCN7618.JPG',1,00000000000),(39,'Aprobamos proyecto','aaaaaaaaaa',123,'2015-05-11 00:00:00',NULL,'DSCN8711.JPG',1,00000000000),(41,'evento mapuche','ramapuche',10,'2017-11-11 00:00:00',NULL,'DSCN7615.JPG',17,00000000000),(42,'holar','evento mapuche',200,'2017-11-11 00:00:00',NULL,'DSCN7613.JPG',1,00000000000);
 /*!40000 ALTER TABLE `evento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,12 +157,11 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarEvento`(
-in PNombreEvento varchar(45), PDescripcion varchar(500), PMeta int(11), PFechaTermina datetime, 
-PEmbedUbicacion varchar(300), PIMagen varchar(500), PUsuarioAdmin int(11)
+in PNombreEvento varchar(45), PDescripcion varchar(500), PMeta int(11), PFechaTermina datetime, PIMagen varchar(500), PUsuarioAdmin int(11)
 )
 begin
-insert into evento(NombreEvento,Descripcion,Meta,FechaTermina,EmbedUbicacion, Imagen, UsuarioAdmin) values (PNombreEvento,
-PDescripcion, PMeta, PFechaTermina, PEmbedUbicacion, PIMagen, PUsuarioAdmin);
+insert into evento(NombreEvento,Descripcion,Meta,FechaTermina, Imagen, UsuarioAdmin) values (PNombreEvento,
+PDescripcion, PMeta, PFechaTermina, PIMagen, PUsuarioAdmin);
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -244,15 +245,15 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ModificarEvento`(
 in PIdEvento int(11), PNombreEvento varchar(45), PDescripcion varchar(500), PMeta int(11), PFechaTermina datetime,
-PEmbedUbicacion varchar(300), PIdUsuarioAdmin int(11)
+PIdUsuarioAdmin int(11)
 )
 begin
 update Evento set NombreEvento = PNombreEvento, Descripcion = PDescripcion, Meta = PMeta,
- FechaTermina = PFechaTermina, EmbedUbicacion = PEmbedUbicacion where idEvento = PIdEvento;
+ FechaTermina = PFechaTermina where idEvento = PIdEvento;
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -373,4 +374,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-26 16:53:09
+-- Dump completed on 2017-09-28 18:58:57

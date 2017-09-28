@@ -106,10 +106,5 @@ namespace PaginaProyecto.Controllers
             ViewBag.Usuario = oUsuario;
             return View();
         }
-
-
-
-
-
     }
 }

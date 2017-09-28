@@ -26,8 +26,6 @@
             foreach (Evento oEvento in listaEventos)
             {
                 <div class="jumbotron  col-lg-4 col-md-6" style="text-align: center; margin-left: 10%">
-                    <div class="row">
-                        <div class="col-md-8">
                             @{
                                 if (oEvento.EnFecha == true)
                                 {
@@ -38,16 +36,6 @@
                                     <span class="label label-danger">Recaudacion Finalizada</span>
                                 }
                             }
-                        </div>
-                        <div class="col-md-2">
-                            <!--Bomba cambiar por editar evento-->
-                            <a href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: #46b8da;"></span></a>
-                        </div>
-                        <div class="col-md-2">
-                            <!--Bomba cambiar por eliminar evento-->
-                            <a href="@Url.Action("AgregarEvento")"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="color: #d9534f;"></span></a>
-                        </div>
-                    </div>
                 
                     <img src="@Url.Content("~/Content/Eventos/")@oEvento.ImagenString" alt="foto" class="img-thumbnail" />
                     <h5>@oEvento.NombreEvento</h5>
@@ -56,4 +44,3 @@
             }
         }
     }
-</div>
