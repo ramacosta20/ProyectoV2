@@ -9,6 +9,11 @@ namespace PaginaProyecto.Controllers
 {
     public class RegistracionUsuarioController : Controller
     {
+        public ActionResult Desloguear()
+        {
+            Session["UsuarioLOgueado"] = null;
+            return RedirectToAction("Index", "Home");
+        }
         // GET: RegistracionUsuario/MiPerfil/
         public ActionResult MiPerfil()
         {
