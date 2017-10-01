@@ -30,17 +30,18 @@
                                 if (oEvento.EnFecha == true)
                                 {
                                     <span class="label label-success">Recaudando</span>
+
                                 }
                                 else
                                 {
                                     <span class="label label-danger">Recaudacion Finalizada</span>
                                 }
                             }
-                
+                    <a  href="@Url.Action("ModificarEvento")"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: deepskyblue; margin-left: 10%"></span></a>
                     <img src="@Url.Content("~/Content/Eventos/")@oEvento.ImagenString" alt="foto" class="img-thumbnail" />
                     <h5>@oEvento.NombreEvento</h5>
                     <a href="/Evento/UnEvento?idEvento=@oEvento.EventoID" class="btn btn-warning btn-lg" role="button" aria-pressed="true">Ver más</a>
-                </div>
+</div>
             }
         }
     }

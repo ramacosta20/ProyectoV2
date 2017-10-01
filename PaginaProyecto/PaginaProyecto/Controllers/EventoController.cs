@@ -95,7 +95,7 @@ namespace PaginaProyecto.Controllers
             if (idEvento != -1)
             {
                 oEvento.EventoID = idEvento;
-                oEvento.TraerEvento();              
+                oEvento.TraerEvento();
             }
             else
             {
@@ -103,7 +103,15 @@ namespace PaginaProyecto.Controllers
             }
             ViewBag.unEvento = oEvento;
             Usuario oUsuario = (Usuario)Session["UsuarioLogueado"];
+            decimal porcen = oEvento.Recaudado;
+            porcen = (porcen / oEvento.Meta) * 100;
+            int intporcen = Convert.ToInt32(porcen);
+            ViewBag.Porcentaje = intporcen;
             ViewBag.Usuario = oUsuario;
+            return View();
+        }
+        public ActionResult ModificarEvento ()
+        {
             return View();
         }
     }

@@ -35,6 +35,8 @@ namespace PaginaProyecto.Models
         [Display(Name = "Meta")]
         public int Meta { get; set; }
 
+        public int Recaudado { get; set; }
+
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Display(Name = "Fecha en que termina la recaudacion (DD/MM/AAAA)")]
         public DateTime FechaTermina { get; set; }
@@ -255,6 +257,7 @@ namespace PaginaProyecto.Models
                     this.ImagenString = dr["Imagen"].ToString();
                     this.Descripcion = dr["Descripcion"].ToString();
                     this.FechaTermina = Convert.ToDateTime(dr["FechaTermina"]);
+                    this.Recaudado = Convert.ToInt32(dr["Recaudado"]);
                 }
             }
             catch (Exception ex)
@@ -280,6 +283,38 @@ namespace PaginaProyecto.Models
             {
                 EnFecha = false;
             }
+        }
+
+        public void ModificarEvento()
+        {
+            //abro conexion y declaro una transaccion
+            Conexiondb.Open();
+            MySqlTransaction tran = Conexiondb.BeginTransaction();
+            try
+            {
+
+                // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DBConsulta.CommandType = CommandType.StoredProcedure;
+                MySqlCommand consulta = new MySqlCommand("ModificarEvento", Conexiondb, tran);
+                consulta.CommandType = CommandType.StoredProcedure;
+
+                //Agrego los parametros
+                consulta.Parameters.AddWithValue("PIdEvento", this.EventoID);
+                consulta.Parameters.AddWithValue("PImagen", this.ImagenString);
+
+                //ejecuto la consulta y obtengo un iterable con registros
+                consulta.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                {
+                    //este bloque de codigo va a manejar cualquier error que pudieran 
+                    //ocurrir en el servidor que pudieran causar la falla del reintento,
+                    //como por ejemplo una conexion cerrada.
+                    Console.WriteLine("Rollback Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+                }
+            }
+            Conexiondb.Close();
         }
 
     }
