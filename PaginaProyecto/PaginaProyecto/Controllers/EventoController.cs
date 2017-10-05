@@ -110,9 +110,40 @@ namespace PaginaProyecto.Controllers
             ViewBag.Usuario = oUsuario;
             return View();
         }
-        public ActionResult ModificarEvento ()
+
+        public ActionResult ModificarEvento(int idEvento)
         {
+            Evento oEvento = new Evento();
+            oEvento.EventoID = idEvento;
+            oEvento.TraerEvento();
+
+            ViewBag.unEvento = oEvento;
+            Usuario oUsuario = (Usuario)Session["UsuarioLogueado"];
+            ViewBag.Usuario = oUsuario;
             return View();
+        }
+
+        // POST : Evento/ModificarEvento/
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ModificarEvento(Evento oEvento)
+        {
+            int id;
+            //oEvento.EventoID = id;
+            if (oEvento.Imagen != null && oEvento.Imagen.ContentLength > 0)
+            {
+                var filename = Path.GetFileName(oEvento.Imagen.FileName);
+                var path = Path.Combine(Server.MapPath("~/Content/Eventos"), filename);
+                oEvento.Imagen.SaveAs(path);
+                oEvento.ImagenString = oEvento.Imagen.FileName;
+                oEvento.ModificarEvento();
+            }
+            else
+            {
+                oEvento.ImagenString = "default.gif";
+                oEvento.ModificarEvento();
+            }
+            return RedirectToAction("MisEventos");
         }
     }
 }

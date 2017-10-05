@@ -293,16 +293,18 @@ namespace PaginaProyecto.Models
             try
             {
 
-                // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DBConsulta.CommandType = CommandType.StoredProcedure;
+                // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DB
                 MySqlCommand consulta = new MySqlCommand("ModificarEvento", Conexiondb, tran);
                 consulta.CommandType = CommandType.StoredProcedure;
 
                 //Agrego los parametros
                 consulta.Parameters.AddWithValue("PIdEvento", this.EventoID);
                 consulta.Parameters.AddWithValue("PImagen", this.ImagenString);
+                consulta.Parameters.AddWithValue("PDescripcion", this.Descripcion);
 
                 //ejecuto la consulta y obtengo un iterable con registros
                 consulta.ExecuteNonQuery();
+                tran.Commit();
             }
             catch (Exception ex)
             {

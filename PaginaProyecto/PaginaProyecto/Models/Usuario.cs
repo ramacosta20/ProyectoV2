@@ -14,7 +14,7 @@ namespace PaginaProyecto.Models
         //declaro conexion
 
         private MySqlConnection Conexiondb = new MySqlConnection("server=localhost; Uid=root; Password=Proyecto; Database=mydb; Port=3306");
-        
+
 
         //propiedades de la clase
         public int UsuarioID { get; set; }
@@ -62,13 +62,13 @@ namespace PaginaProyecto.Models
             try
             {
                 // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DB
-                MySqlCommand consulta = new MySqlCommand("InsertarUsuario",Conexiondb,tran);            
+                MySqlCommand consulta = new MySqlCommand("InsertarUsuario", Conexiondb, tran);
                 consulta.CommandType = CommandType.StoredProcedure;
                 //Agrego los parametros
                 consulta.Parameters.AddWithValue("PNombre", this.Nombre);
                 consulta.Parameters.AddWithValue("PEmail", this.Email);
-                consulta.Parameters.AddWithValue("PApellido",this.Apellido);
-                consulta.Parameters.AddWithValue("PContraseña",this.Contraseña);
+                consulta.Parameters.AddWithValue("PApellido", this.Apellido);
+                consulta.Parameters.AddWithValue("PContraseña", this.Contraseña);
                 consulta.Parameters.AddWithValue("PImagen", this.ImagenString);
 
                 //ejecuto la consulta que no devuelve nada
@@ -83,7 +83,7 @@ namespace PaginaProyecto.Models
                 consultaId.Parameters.AddWithValue("PEEmail", this.Email);
 
                 //ejecuto la consulta que no devuelve nada
-                MySqlDataReader dr =consultaId.ExecuteReader();
+                MySqlDataReader dr = consultaId.ExecuteReader();
                 while (dr.Read())
                 {
                     this.UsuarioID = Convert.ToInt32(dr["idUsuario"].ToString());
@@ -91,13 +91,13 @@ namespace PaginaProyecto.Models
             }
             catch (Exception ex)
             {
-                  //este bloque de codigo va a manejar cualquier error que pudiera 
-                  //ocurrir en el servidor que pudieran causar la falla del reintento,
-                  //como por ejemplo una conexion cerrada.
-                  Console.WriteLine("Exception Type: {0}", ex.GetType());
-                  Console.WriteLine("  Message: {0}", ex.Message);
+                //este bloque de codigo va a manejar cualquier error que pudiera 
+                //ocurrir en el servidor que pudieran causar la falla del reintento,
+                //como por ejemplo una conexion cerrada.
+                Console.WriteLine("Exception Type: {0}", ex.GetType());
+                Console.WriteLine("  Message: {0}", ex.Message);
             }
-            Conexiondb.Close(); 
+            Conexiondb.Close();
         }
 
         //devuelve un Usuario si el mail y la contraseña(parametros) coinciden con un mail y una contraseña de un registro en la DB
@@ -161,11 +161,45 @@ namespace PaginaProyecto.Models
             }
             catch (Exception ex2)
             {
+                //este bloque de codigo va a manejar cualquier error que pudieran 
+                //ocurrir en el servidor que pudieran causar la falla del reintento,
+                //como por ejemplo una conexion cerrada.
+                Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                Console.WriteLine("  Message: {0}", ex2.Message);
+            }
+            Conexiondb.Close();
+        }
+
+        public void ModificarUsuario()
+        {
+            //abro conexion y declaro una transaccion
+            Conexiondb.Open();
+            MySqlTransaction tran = Conexiondb.BeginTransaction();
+            try
+            {
+
+                // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DB
+                MySqlCommand consulta = new MySqlCommand("ModificarUsuario", Conexiondb, tran);
+                consulta.CommandType = CommandType.StoredProcedure;
+
+                //Agrego los parametros
+                consulta.Parameters.AddWithValue("PIdUsuario", this.UsuarioID);
+                consulta.Parameters.AddWithValue("PNombre", this.Nombre);
+                consulta.Parameters.AddWithValue("PApellido", this.Apellido);
+
+                //ejecuto la consulta y obtengo un iterable con registros
+                consulta.ExecuteNonQuery();
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                {
                     //este bloque de codigo va a manejar cualquier error que pudieran 
                     //ocurrir en el servidor que pudieran causar la falla del reintento,
                     //como por ejemplo una conexion cerrada.
-                    Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
-                    Console.WriteLine("  Message: {0}", ex2.Message);
+                    Console.WriteLine("Rollback Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+                }
             }
             Conexiondb.Close();
         }

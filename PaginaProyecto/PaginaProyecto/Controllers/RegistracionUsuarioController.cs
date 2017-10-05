@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PaginaProyecto.Models;
+using System.IO;
 
 namespace PaginaProyecto.Controllers
 {
@@ -18,6 +19,7 @@ namespace PaginaProyecto.Controllers
         public ActionResult MiPerfil()
         {
             Usuario oUsuario = (Usuario)Session["UsuarioLogueado"];
+
             ViewBag.Usuario = oUsuario;
             return View();
         }
@@ -86,6 +88,28 @@ namespace PaginaProyecto.Controllers
                 ViewBag.MensajeError = "El usuario o la contraseña no son correctos";
                 return View();
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ModificarUsuario(Usuario oUsuario, int id)
+        {
+            Usuario logUsuario = (Usuario)Session["UsuarioLogueado"];
+            oUsuario.UsuarioID = id;
+            if (oUsuario.Imagen != null && oUsuario.Imagen.ContentLength > 0)
+            {
+                var filename = Path.GetFileName(oUsuario.Imagen.FileName);
+                var path = Path.Combine(Server.MapPath("~/Content/Usuarios"), filename);
+                oUsuario.Imagen.SaveAs(path);
+                oUsuario.ImagenString = oUsuario.Imagen.FileName; 
+            }
+            else
+            {
+                oUsuario.ImagenString = "default.gif";               
+            }
+            
+            
+            return RedirectToAction("MiPerfil");
         }
     }
 }
