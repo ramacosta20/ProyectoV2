@@ -126,23 +126,21 @@ namespace PaginaProyecto.Controllers
         // POST : Evento/ModificarEvento/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ModificarEvento(Evento oEvento)
+        public ActionResult ModificarEvento(Evento oEvento, int id)
         {
-            int id;
-            //oEvento.EventoID = id;
+            oEvento.EventoID = id;
             if (oEvento.Imagen != null && oEvento.Imagen.ContentLength > 0)
             {
                 var filename = Path.GetFileName(oEvento.Imagen.FileName);
                 var path = Path.Combine(Server.MapPath("~/Content/Eventos"), filename);
                 oEvento.Imagen.SaveAs(path);
-                oEvento.ImagenString = oEvento.Imagen.FileName;
-                oEvento.ModificarEvento();
+                oEvento.ImagenString = oEvento.Imagen.FileName;  
             }
             else
             {
                 oEvento.ImagenString = "default.gif";
-                oEvento.ModificarEvento();
             }
+            oEvento.ModificarEvento();
             return RedirectToAction("MisEventos");
         }
     }

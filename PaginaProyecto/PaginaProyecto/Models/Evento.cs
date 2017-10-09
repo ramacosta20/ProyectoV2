@@ -27,7 +27,7 @@ namespace PaginaProyecto.Models
         public string NombreEvento { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [StringLength(60, ErrorMessage = "La descripcion debe tener menos de 400 caracteres")]
+        [StringLength(400, ErrorMessage = "La descripcion debe tener menos de 400 caracteres")]
         [Display(Name = "Descripcion")]
         public string Descripcion { get; set; }
 

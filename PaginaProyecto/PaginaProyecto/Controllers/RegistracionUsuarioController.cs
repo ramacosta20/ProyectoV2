@@ -90,12 +90,21 @@ namespace PaginaProyecto.Controllers
             }
         }
 
+        public ActionResult ModificarUsuario()
+        {
+            Usuario oUsuario = (Usuario)Session["UsuarioLogueado"];
+            ViewBag.Usuario = oUsuario; 
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ModificarUsuario(Usuario oUsuario, int id)
+        public ActionResult ModificarUsuario(Usuario oUsuario)
         {
             Usuario logUsuario = (Usuario)Session["UsuarioLogueado"];
-            oUsuario.UsuarioID = id;
+            oUsuario.UsuarioID = logUsuario.UsuarioID;
+            oUsuario.Email = logUsuario.Email;
+            oUsuario.Contraseña = logUsuario.Contraseña;
             if (oUsuario.Imagen != null && oUsuario.Imagen.ContentLength > 0)
             {
                 var filename = Path.GetFileName(oUsuario.Imagen.FileName);
@@ -107,8 +116,8 @@ namespace PaginaProyecto.Controllers
             {
                 oUsuario.ImagenString = "default.gif";               
             }
-            
-            
+            oUsuario.ModificarUsuario();
+            Session["UsuarioLogueado"] = oUsuario;
             return RedirectToAction("MiPerfil");
         }
     }

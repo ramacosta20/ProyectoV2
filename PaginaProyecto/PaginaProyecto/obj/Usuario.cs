@@ -186,6 +186,7 @@ namespace PaginaProyecto.Models
                 consulta.Parameters.AddWithValue("PIdUsuario", this.UsuarioID);
                 consulta.Parameters.AddWithValue("PNombre", this.Nombre);
                 consulta.Parameters.AddWithValue("PApellido", this.Apellido);
+                consulta.Parameters.AddWithValue("PImagen", this.ImagenString);
 
                 //ejecuto la consulta y obtengo un iterable con registros
                 consulta.ExecuteNonQuery();

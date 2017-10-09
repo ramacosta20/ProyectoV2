@@ -1,0 +1,46 @@
+﻿@using PaginaProyecto.Models
+@model PaginaProyecto.Models.Usuario
+@{
+    ViewBag.Title = "ModificarUsuario";
+    Layout = "~/Views/Shared/_MiLayoutLogueado.cshtml";
+    Usuario oUsuario = ViewBag.Usuario;
+}
+<div class="container col-sm-12 col-md-push-1 col-md-10">
+    <h4>Edita tu cuenta</h4>
+    <hr />
+    @using (Html.BeginForm("ModificarUsuario", "RegistracionUsuario", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal Container", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <p class="text-danger">@ViewBag.EmailUsado</p>
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(x => x.Nombre, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.Nombre, new { @Value = oUsuario.Nombre, @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Apellido, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.Apellido, new { @Value = oUsuario.Apellido, @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Imagen, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.Imagen, new { type = "file", @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Guardar" />
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+

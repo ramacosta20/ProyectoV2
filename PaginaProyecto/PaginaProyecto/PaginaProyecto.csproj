@@ -258,12 +258,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Donacion.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Contrato.cs" />
     <Compile Include="Models\Prueba_multiplier.cs" />
-    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="obj\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -550,6 +551,7 @@
     <Content Include="Views\Home\Eventos.cshtml" />
     <Content Include="Views\RegistracionUsuario\MiPerfil.cshtml" />
     <Content Include="Views\Evento\ModificarEvento.cshtml" />
+    <Content Include="Views\RegistracionUsuario\ModificarUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

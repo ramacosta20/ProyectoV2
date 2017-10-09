@@ -1,22 +1,20 @@
 ﻿@using PaginaProyecto.Models
-@model Evento
+@model PaginaProyecto.Models.Evento
 @{
     ViewBag.Title = "ModificarEvento";
     Layout = "~/Views/Shared/_MiLayoutLogueado.cshtml";
-
-    Evento unEvento = new Evento();
-    unEvento = ViewBag.unEvento;
+    Evento unEvento = ViewBag.unEvento;
 }
 
 <div class="container-fluid row">
     <h2 class="col-md-12" style="padding:20px;">Modificar Evento</h2>
 </div>
 <div class="container col-sm-12 col-md-push-1 col-md-10">
-    @using (Html.BeginForm("ModificarEvento", "Evento", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal Container", role = "form" }))
+    @using (Html.BeginForm("ModificarEvento", "Evento", FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal Container", role = "form" }))
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary("", new { @class = "text-danger" })
-
+        @Html.Hidden("id", unEvento.EventoID)
             <div class="form-group">
                 @Html.LabelFor(x => x.Descripcion, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
@@ -38,7 +36,10 @@
             </div>
     }
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 
+}
 
 
 
