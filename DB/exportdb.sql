@@ -33,7 +33,7 @@ CREATE TABLE `donaciones` (
   KEY `fk_donaciones_usuarios1_idx` (`idUsuario`),
   CONSTRAINT `fk_donaciones_evento1` FOREIGN KEY (`idEvento`) REFERENCES `evento` (`idEvento`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_donaciones_usuarios1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `donaciones` (
 
 LOCK TABLES `donaciones` WRITE;
 /*!40000 ALTER TABLE `donaciones` DISABLE KEYS */;
-INSERT INTO `donaciones` VALUES (1,10,1,1),(2,20,2,1),(3,30,1,2),(4,40,2,2),(5,50,1,3);
+INSERT INTO `donaciones` VALUES (1,10,1,1),(2,10,1,1),(3,10,1,2);
 /*!40000 ALTER TABLE `donaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,7 +77,7 @@ CREATE TABLE `evento` (
 
 LOCK TABLES `evento` WRITE;
 /*!40000 ALTER TABLE `evento` DISABLE KEYS */;
-INSERT INTO `evento` VALUES (1,'ted','holas',100,'2017-11-11 00:00:00',NULL,'default.gif',1,00000000020),(2,'Ajedrez','hol',1000,'2017-11-20 00:00:00',NULL,'DSCN7613.JPG',1,00000000000),(3,'tedy','g',1000,'2017-11-20 00:00:00',NULL,'default.gif',1,00000000000);
+INSERT INTO `evento` VALUES (1,'ted','holas',100,'2017-11-11 00:00:00',NULL,'default.gif',1,00000000020),(2,'Ajedrez','hol',1000,'2017-11-20 00:00:00',NULL,'DSCN7613.JPG',1,00000000000),(3,'tedy','ga',1000,'2017-11-20 00:00:00',NULL,'DSCN7613.JPG',1,00000000000);
 /*!40000 ALTER TABLE `evento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,7 +112,7 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'mydb'
 --
-/*!50003 DROP PROCEDURE IF EXISTS `CantidadDonanatesProyecto` */;
+/*!50003 DROP PROCEDURE IF EXISTS `CantidadDonantesEvento` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -122,9 +122,9 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `CantidadDonanatesProyecto`(in PIdEvento int(11))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CantidadDonantesEvento`(in PIdEvento int(11))
 BEGIN
-select COUNT(idUsuario) from donaciones where idEvento = PIdEvento group by idUsuario;
+select COUNT(idUsuario), idEvento from donaciones where IdEvento = PIdEvento group by idUsuario;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -143,7 +143,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Donar`(in PMonto int(11), PIdEvento int(11), PIdUsuario int(11))
 BEGIN
-insert into donaciones values (PMonto, PIdEvento, PIdUsuario);
+insert into donaciones (Monto, IdEvento, IdUsuario)values (PMonto, PIdEvento, PIdUsuario);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -255,6 +255,26 @@ in PImagen varchar(500)
 begin
 insert into Usuarios (Nombre,Apellido,Email,Contraseña,Imagen)values (PNombre , PApellido,PEmail ,PContraseña, PImagen);
 end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `ListaEventosDone` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListaEventosDone`(in PIdUsuario int(11))
+BEGIN
+select idDonaciones ,Evento.NombreEvento from donaciones INNER JOIN Evento ON Evento.idEvento  = Donaciones.IdEvento
+where Donaciones.IdUsuario = PIdUsuario group by Donaciones.idEvento;
+END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -407,7 +427,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `RecaudacionEvento` */;
+/*!50003 DROP PROCEDURE IF EXISTS `RecaudadoEvento` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -417,9 +437,9 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `RecaudacionEvento`(in PIdEvento int(11))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `RecaudadoEvento`(in PIdEvento int(11))
 BEGIN
-select SUM(monto) from donaciones where idevento = PIdEvento;
+select SUM(Monto) as Recaudado from donaciones where IdEvento = PIdEvento;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -477,4 +497,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-09 19:33:37
+-- Dump completed on 2017-10-18  6:58:48

@@ -1,0 +1,64 @@
+﻿@using PaginaProyecto.Models
+@model Donacion
+@{
+    if (ViewBag.Usuario == null)
+    {
+        Layout = "~/Views/Shared/_MiLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_MiLayoutLogueado.cshtml";
+    }
+    int idEvento = ViewBag.EventoID;
+}
+@using (Html.BeginForm("Donar", "Evento", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal Container", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.Hidden("idEvento", idEvento)
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                @Html.LabelFor(x => x.NumeroTarjeta, new { @style = "font-family : Montserrat;" })
+                <div class="input-group">
+                    @Html.TextBoxFor( x => x.NumeroTarjeta, new { @type = "tel", @placeholder ="Numero De Tarjeta", @class = "form-control", @autofocus = "" })
+                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-7 col-md-7">
+            <div class="form-group">
+                @Html.LabelFor(x => x.Expiracion)
+                @Html.TextBoxFor(x => x.Expiracion, new { @type = "tel", @placeholder = "MM / YY", @class = "form-control"})
+            </div>
+        </div>
+        <div class="col-xs-5 col-md-5 pull-right">
+            <div class="form-group">
+                @Html.LabelFor(x => x.CV, new { @style = "font-family : Montserrat;" })
+                @Html.TextBoxFor(x => x.CV, new { @type = "tel", @placeholder = "CV Valido", @class = "form-control"})
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                @Html.LabelFor(x => x.Monto, new { @style = "font-family : Montserrat;" })
+                @Html.TextBoxFor(x => x.Monto, new { @class = "form-control", type = "number" })
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                    <input type="submit" class="btn btn-success btn-block btn-lg" value="Donar" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -32,7 +32,18 @@
             </b>
             </p>
             <h4>Termina: @unEvento.FechaTermina.ToShortDateString()</h4>
-            <a href="" class="btn btn-warning btn-lg" role="button" aria-pressed="true" type="button" data-toggle="modal" data-target="#myModal">Donar</a>
+            <h4>Cantidad de usuarios que donaron: @unEvento.CantDonantesEvento</h4>
+            @{
+                if (ViewBag.Usuario == null)
+                {
+                  
+                }
+                else
+                {
+                    <a href="/Evento/Donar?idEvento=@unEvento.EventoID" class="btn btn-warning btn-lg" role="button" aria-pressed="true" type="button">Donar</a>
+                }
+            }
+            
         </div>
     </div>
 </div>
@@ -42,93 +53,3 @@
     <h1 style="color:white; font-size:250px; position: absolute; margin-left:5%;">GRACIAS</h1>
     <canvas id="world" style="margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;"></canvas>
 </div>
-
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <!-- Vendor libraries -->
-                <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
-                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
-                <!-- If you're using Stripe for payments -->
-                <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-12 col-md-12">
-                            <div class="panel panel-default credit-card-box">
-                                <div class="panel-heading display-table">
-                                    <div class="row display-tr">
-                                        <h3 class="panel-title display-td" style="font-family: Montserrat;">DETALLES DEL PAGO</h3>
-                                        <div class="display-td">
-                                            <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-                                    <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <div class="form-group">
-                                                    <label for="cardNumber" style="font-family: Montserrat;">NUMERO DE TARJETA</label>
-                                                    <div class="input-group">
-                                                        <input type="tel"
-                                                               class="form-control"
-                                                               name="cardNumber"
-                                                               placeholder="Valid Card Number"
-                                                               autocomplete="cc-number"
-                                                               required autofocus />
-                                                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-7 col-md-7">
-                                                <div class="form-group">
-                                                    <label for="cardExpiry"><span class="hidden-xs" style="font-family: Montserrat;">EXPIRACION</span><span class="visible-xs-inline"></span></label>
-                                                    <input type="tel"
-                                                           class="form-control"
-                                                           name="cardExpiry"
-                                                           placeholder="MM / YY"
-                                                           autocomplete="cc-exp"
-                                                           required />
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-5 col-md-5 pull-right">
-                                                <div class="form-group">
-                                                    <label for="cardCVC" style="font-family: Montserrat;">CODIGO CV</label>
-                                                    <input type="tel"
-                                                           class="form-control"
-                                                           name="cardCVC"
-                                                           placeholder="CVC"
-                                                           autocomplete="cc-csc"
-                                                           required />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <div class="form-group">
-                                                    <label for="couponCode" style="font-family: Montserrat;">MONTO A DONAR</label>
-                                                    <input type="text" class="form-control" name="couponCode" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <button class="subscribe btn btn-success btn-lg btn-block" type="button" style="font-family: Montserrat;" data-toggle="modal" data-target="#myModal1" id="miBoton">DONAR</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-   </div>
-   <script>$('#miBoton').click(function () { $('#myModal').hide(); });</script>

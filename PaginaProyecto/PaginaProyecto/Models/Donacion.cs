@@ -31,7 +31,7 @@ namespace PaginaProyecto.Models
         public int CV { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [Display(Name = "Nombre del evento")]
+        [Display(Name = "Monto")]
         public int Monto { get; set; }
 
         //metodos de la clase
@@ -69,5 +69,44 @@ namespace PaginaProyecto.Models
             }
             Conexiondb.Close();
         }
+
+
+
+        public int recaudadoEvento(int idEvento)
+        {
+            int recaudado = 0;
+            //abro conexion y declaro una transaccion
+            Conexiondb.Open();
+            MySqlTransaction tran = Conexiondb.BeginTransaction();
+            try
+            {
+
+                // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DBConsulta.CommandType = CommandType.StoredProcedure;
+                MySqlCommand consulta = new MySqlCommand("RecaudadoEvento", Conexiondb, tran);
+                consulta.CommandType = CommandType.StoredProcedure;
+
+                //Agrego los parametros
+                consulta.Parameters.AddWithValue("PIdEvento", idEvento);
+
+                //ejecuto la consulta y obtengo un iterable con registros
+                MySqlDataReader dr = consulta.ExecuteReader();
+                if (dr.Read())
+                {
+                    recaudado = Convert.ToInt32(dr["monto"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                {
+                    //este bloque de codigo va a manejar cualquier error que pudieran 
+                    //ocurrir en el servidor que pudieran causar la falla del reintento,
+                    //como por ejemplo una conexion cerrada.
+                    Console.WriteLine("Rollback Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+                }
+            }
+            return recaudado;
+        }
+
     }
 }

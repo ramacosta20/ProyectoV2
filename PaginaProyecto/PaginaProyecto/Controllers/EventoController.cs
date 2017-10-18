@@ -101,13 +101,15 @@ namespace PaginaProyecto.Controllers
             {
                 oEvento = (Evento)TempData["EventoCreado"];
             }
-            ViewBag.unEvento = oEvento;
             Usuario oUsuario = (Usuario)Session["UsuarioLogueado"];
-            decimal porcen = oEvento.Recaudado;
-            porcen = (porcen / oEvento.Meta) * 100;
-            int intporcen = Convert.ToInt32(porcen);
+            oEvento.recaudadoEvento();
+            oEvento.CantidadDeDonantesEvento();
+            double porcen = 0;
+            porcen = ((double)oEvento.Recaudado / (double)oEvento.Meta) * 100;
+            int intporcen = Convert.ToInt32(Math.Floor(porcen));
             ViewBag.Porcentaje = intporcen;
             ViewBag.Usuario = oUsuario;
+            ViewBag.unEvento = oEvento;
             return View();
         }
 
@@ -142,6 +144,29 @@ namespace PaginaProyecto.Controllers
             }
             oEvento.ModificarEvento();
             return RedirectToAction("MisEventos");
+        }
+
+        public ActionResult Donar(int idEvento)
+        {
+            ViewBag.EventoID = idEvento;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Donar(Donacion oDonacion, int idEvento)
+        {
+            if (ModelState.IsValid)
+            {
+                Usuario oUsuario = (Usuario)Session["usuarioLogueado"];
+                int idUsuario = oUsuario.UsuarioID; 
+                oDonacion.donar(idEvento, idUsuario);
+                return RedirectToAction("UnEvento", new { idEvento = idEvento});
+            }
+            else
+            {
+                return View();
+            }
         }
     }
 }

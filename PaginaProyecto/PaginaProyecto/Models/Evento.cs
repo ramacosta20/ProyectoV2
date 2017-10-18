@@ -35,8 +35,6 @@ namespace PaginaProyecto.Models
         [Display(Name = "Meta")]
         public int Meta { get; set; }
 
-        public int Recaudado { get; set; }
-
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Display(Name = "Fecha en que termina la recaudacion (DD/MM/AAAA)")]
         public DateTime FechaTermina { get; set; }
@@ -52,6 +50,10 @@ namespace PaginaProyecto.Models
         public Usuario UsuarioAdmin { get; set; }
 
         public bool EnFecha { get; set; }
+
+        public int Recaudado { get; set; }
+
+        public int CantDonantesEvento { get; set; }
 
         //metodos de la clase
 
@@ -305,6 +307,78 @@ namespace PaginaProyecto.Models
                 //ejecuto la consulta y obtengo un iterable con registros
                 consulta.ExecuteNonQuery();
                 tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                {
+                    //este bloque de codigo va a manejar cualquier error que pudieran 
+                    //ocurrir en el servidor que pudieran causar la falla del reintento,
+                    //como por ejemplo una conexion cerrada.
+                    Console.WriteLine("Rollback Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+                }
+            }
+            Conexiondb.Close();
+        }
+
+        public void recaudadoEvento()
+        {
+            //abro conexion y declaro una transaccion
+            Conexiondb.Open();
+            MySqlTransaction tran = Conexiondb.BeginTransaction();
+            try
+            {
+
+                // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DBConsulta.CommandType = CommandType.StoredProcedure;
+                MySqlCommand consulta = new MySqlCommand("RecaudadoEvento", Conexiondb, tran);
+                consulta.CommandType = CommandType.StoredProcedure;
+
+                //Agrego los parametros
+                consulta.Parameters.AddWithValue("PIdEvento", this.EventoID);
+
+                //ejecuto la consulta y obtengo un iterable con registros
+                MySqlDataReader dr = consulta.ExecuteReader();
+                if (dr.Read())
+                {
+                    this.Recaudado = Convert.ToInt32(dr["Recaudado"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                {
+                    //este bloque de codigo va a manejar cualquier error que pudieran 
+                    //ocurrir en el servidor que pudieran causar la falla del reintento,
+                    //como por ejemplo una conexion cerrada.
+                    Console.WriteLine("Rollback Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+                }
+            }
+            Conexiondb.Close();
+        }
+
+        public void CantidadDeDonantesEvento()
+        {
+            int contadorDonantes = 0;
+            //abro conexion y declaro una transaccion
+            Conexiondb.Open();
+            MySqlTransaction tran = Conexiondb.BeginTransaction();
+            try
+            {
+
+                // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DBConsulta.CommandType = CommandType.StoredProcedure;
+                MySqlCommand consulta = new MySqlCommand("CantidadDonantesEvento", Conexiondb, tran);
+                consulta.CommandType = CommandType.StoredProcedure;
+
+                //Agrego los parametros
+                consulta.Parameters.AddWithValue("PIdEvento", this.EventoID);
+
+                //ejecuto la consulta y obtengo un iterable con registros
+                MySqlDataReader dr = consulta.ExecuteReader();
+                while (dr.Read())
+                {
+                    contadorDonantes++;
+                }
+                this.CantDonantesEvento = contadorDonantes;
             }
             catch (Exception ex)
             {

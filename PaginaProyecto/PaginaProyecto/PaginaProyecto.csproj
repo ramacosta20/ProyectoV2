@@ -552,6 +552,7 @@
     <Content Include="Views\RegistracionUsuario\MiPerfil.cshtml" />
     <Content Include="Views\Evento\ModificarEvento.cshtml" />
     <Content Include="Views\RegistracionUsuario\ModificarUsuario.cshtml" />
+    <Content Include="Views\Evento\Donar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
