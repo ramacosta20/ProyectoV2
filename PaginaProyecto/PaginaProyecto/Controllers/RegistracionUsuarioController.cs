@@ -19,7 +19,7 @@ namespace PaginaProyecto.Controllers
         public ActionResult MiPerfil()
         {
             Usuario oUsuario = (Usuario)Session["UsuarioLogueado"];
-
+            oUsuario.ListarEventosDono();
             ViewBag.Usuario = oUsuario;
             return View();
         }

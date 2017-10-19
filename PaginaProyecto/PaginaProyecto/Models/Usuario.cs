@@ -51,6 +51,8 @@ namespace PaginaProyecto.Models
 
         public string ImagenString { get; set; }
 
+        public List<string> ListaEventosDono { get; set; }
+
         //metodos publicos
 
         //Agrega el usuario que ejecuta el metodo a la base de datos
@@ -201,6 +203,38 @@ namespace PaginaProyecto.Models
                     Console.WriteLine("Rollback Exception Type: {0}", ex.GetType());
                     Console.WriteLine("  Message: {0}", ex.Message);
                 }
+            }
+            Conexiondb.Close();
+        }
+
+        public void ListarEventosDono()
+        {
+            ListaEventosDono = new List<string>();
+            //abro conexion y declaro una transaccion
+            Conexiondb.Open();
+            MySqlTransaction tran = Conexiondb.BeginTransaction();
+            try
+            {
+                // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DBConsulta.CommandType = CommandType.StoredProcedure;
+                MySqlCommand consulta = new MySqlCommand("ListaEventosDone", Conexiondb, tran);
+                consulta.CommandType = CommandType.StoredProcedure;
+                //Agrego los parametros
+                consulta.Parameters.AddWithValue("PIdUsuario", UsuarioID);
+
+                //ejecuto la consulta y obtengo un iterable con registros
+                MySqlDataReader dr = consulta.ExecuteReader();
+                while (dr.Read())
+                {
+                    ListaEventosDono.Add(dr["NombreEvento"].ToString());
+                }
+            }
+            catch (Exception ex2)
+            {
+                //este bloque de codigo va a manejar cualquier error que pudieran 
+                //ocurrir en el servidor que pudieran causar la falla del reintento,
+                //como por ejemplo una conexion cerrada.
+                Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                Console.WriteLine("  Message: {0}", ex2.Message);
             }
             Conexiondb.Close();
         }
