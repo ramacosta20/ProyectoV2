@@ -14,7 +14,7 @@ namespace PaginaProyecto.Models
     {
         //declaro conexion
 
-        private MySqlConnection Conexiondb = new MySqlConnection("server=localhost; Uid=root; Password=Proyecto; Database=mydb; Port=3306");
+        private MySqlConnection Conexiondb = new MySqlConnection("server=localhost; Uid=root; Password=root; Database=mydb; Port=3306");
 
         //propiedades de la clase
         public int EventoID { get; set; }
