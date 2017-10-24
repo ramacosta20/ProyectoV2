@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `mydb` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `mydb`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: mydb
@@ -33,7 +35,7 @@ CREATE TABLE `donaciones` (
   KEY `fk_donaciones_usuarios1_idx` (`idUsuario`),
   CONSTRAINT `fk_donaciones_evento1` FOREIGN KEY (`idEvento`) REFERENCES `evento` (`idEvento`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_donaciones_usuarios1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +44,7 @@ CREATE TABLE `donaciones` (
 
 LOCK TABLES `donaciones` WRITE;
 /*!40000 ALTER TABLE `donaciones` DISABLE KEYS */;
-INSERT INTO `donaciones` VALUES (1,10,1,1),(2,10,1,1),(3,10,1,2);
+INSERT INTO `donaciones` VALUES (1,10,1,1),(2,10,1,1),(3,10,1,2),(4,20,2,1);
 /*!40000 ALTER TABLE `donaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,7 +274,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListaEventosDone`(in PIdUsuario int(11))
 BEGIN
-select idDonaciones ,Evento.NombreEvento from donaciones INNER JOIN Evento ON Evento.idEvento  = Donaciones.IdEvento
+select Evento.NombreEvento from donaciones INNER JOIN Evento ON Evento.idEvento  = Donaciones.IdEvento
 where Donaciones.IdUsuario = PIdUsuario group by Donaciones.idEvento;
 END ;;
 DELIMITER ;
@@ -497,4 +499,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-18  6:58:48
+-- Dump completed on 2017-10-23 18:22:05
