@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
 using System.Net.Mail;
 using PaginaProyecto.Models;
 using System.IO;
@@ -178,15 +179,12 @@ namespace PaginaProyecto.Controllers
         {
             MailMessage mailMessage = new MailMessage();
             mailMessage.To.Add(oUsuario.Email);
-            mailMessage.From = new MailAddress("proyectodonaciones@hotmail.com");
+            mailMessage.From = new MailAddress("proyectodonaciones@gmail.com");
             mailMessage.Subject = "Donacion aceptada";
             mailMessage.Body = "Aceptamos tu donacion de $" + oDonacion.Monto + ". Muchas gracias por contribuir.";
-            SmtpClient smtpClient = new SmtpClient("smtp-mail.outlook.com");
-            smtpClient.Credentials = new System.Net.NetworkCredential()
-            {
-                UserName = "proyectodonaciones@hotmail.com",
-                Password = "Aguanteproyectodebitcoin"
-            };
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+            smtpClient.Credentials = new NetworkCredential("proyectodonaciones@gmail.com", "proyecto123");
+            smtpClient.Port = 465;
             smtpClient.Send(mailMessage);
         }
     }
