@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
+using System.Net.Mail;
 using PaginaProyecto.Models;
 using System.IO;
 
@@ -107,6 +109,10 @@ namespace PaginaProyecto.Controllers
             double porcen = 0;
             porcen = ((double)oEvento.Recaudado / (double)oEvento.Meta) * 100;
             int intporcen = Convert.ToInt32(Math.Floor(porcen));
+            /*if (intporcen>=100)
+            {
+                MandarMail2(oEvento);
+            }*/
             ViewBag.Porcentaje = intporcen;
             ViewBag.Usuario = oUsuario;
             ViewBag.unEvento = oEvento;
@@ -149,6 +155,8 @@ namespace PaginaProyecto.Controllers
         public ActionResult Donar(int idEvento)
         {
             ViewBag.EventoID = idEvento;
+            Usuario ousuario = (Usuario)Session["Usuariologueado"];
+            ViewBag.Usuario = ousuario;
             return View();
         }
 
@@ -161,12 +169,42 @@ namespace PaginaProyecto.Controllers
                 Usuario oUsuario = (Usuario)Session["usuarioLogueado"];
                 int idUsuario = oUsuario.UsuarioID; 
                 oDonacion.donar(idEvento, idUsuario);
+                MandarMail1(oUsuario, oDonacion);
                 return RedirectToAction("UnEvento", new { idEvento = idEvento});
             }
             else
             {
+                Usuario ousuario = (Usuario)Session["Usuariologueado"];
+                ViewBag.Usuario = ousuario;
                 return View();
             }
+        }
+        public void MandarMail1 (Usuario oUsuario, Donacion oDonacion)
+        {
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.To.Add(oUsuario.Email);
+            mailMessage.From = new MailAddress("proyectodonaciones@gmail.com");
+            mailMessage.Subject = "Donacion aceptada";
+            mailMessage.Body = "Aceptamos tu donacion de $" + oDonacion.Monto + ". Muchas gracias por contribuir.";
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+            smtpClient.Credentials = new NetworkCredential("proyectodonaciones@gmail.com", "proyecto123");
+            smtpClient.UseDefaultCredentials = true;
+            smtpClient.EnableSsl=true;
+            smtpClient.Port = 465;
+            smtpClient.Send(mailMessage);
+        }
+
+        public void MandarMail2(Evento oEvento)
+        {
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.To.Add(oEvento.UsuarioAdmin.Email);
+            mailMessage.From = new MailAddress("proyectodonaciones@gmail.com");
+            mailMessage.Subject = "Meta alcanzada";
+            mailMessage.Body = "Tu proyecto recaudo su meta.";
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+            smtpClient.Credentials = new NetworkCredential("proyectodonaciones@gmail.com", "proyecto123");
+            smtpClient.Port = 465;
+            smtpClient.Send(mailMessage);
         }
     }
 }
