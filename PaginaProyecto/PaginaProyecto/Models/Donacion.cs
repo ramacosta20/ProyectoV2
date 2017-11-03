@@ -13,9 +13,7 @@ namespace PaginaProyecto.Models
     public class Donacion
     {
         //declaro conexion
-
         private MySqlConnection Conexiondb = new MySqlConnection("server=localhost; Uid=root; Password=Proyecto; Database=mydb; Port=3306");
-
         //propiedades de la clase
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
@@ -31,11 +29,11 @@ namespace PaginaProyecto.Models
         public int CV { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        [Range(0, 99999999999)]
         [Display(Name = "Monto")]
         public int Monto { get; set; }
 
         //metodos de la clase
-
         public void donar(int idEvento, int idUsuario)
         {
             //abro conexion y declaro una transaccion
@@ -43,7 +41,6 @@ namespace PaginaProyecto.Models
             MySqlTransaction tran = Conexiondb.BeginTransaction();
             try
             {
-
                 // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DB
                 MySqlCommand consulta = new MySqlCommand("Donar", Conexiondb, tran);
                 consulta.CommandType = CommandType.StoredProcedure;
@@ -69,9 +66,6 @@ namespace PaginaProyecto.Models
             }
             Conexiondb.Close();
         }
-
-
-
         public int recaudadoEvento(int idEvento)
         {
             int recaudado = 0;
@@ -80,7 +74,6 @@ namespace PaginaProyecto.Models
             MySqlTransaction tran = Conexiondb.BeginTransaction();
             try
             {
-
                 // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DBConsulta.CommandType = CommandType.StoredProcedure;
                 MySqlCommand consulta = new MySqlCommand("RecaudadoEvento", Conexiondb, tran);
                 consulta.CommandType = CommandType.StoredProcedure;
@@ -107,6 +100,5 @@ namespace PaginaProyecto.Models
             }
             return recaudado;
         }
-
     }
 }
