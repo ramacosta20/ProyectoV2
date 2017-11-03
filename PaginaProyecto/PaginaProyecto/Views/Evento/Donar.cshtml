@@ -31,7 +31,7 @@
         <div class="col-xs-7 col-md-7">
             <div class="form-group">
                 @Html.LabelFor(x => x.Expiracion)
-                @Html.TextBoxFor(x => x.Expiracion, new { @type = "tel", @placeholder = "MM / YY", @class = "form-control"})
+                @Html.TextBoxFor(x => x.Expiracion, new { @type = "date", @placeholder = "MM / DD / YY", @class = "form-control"})
             </div>
         </div>
         <div class="col-xs-5 col-md-5 pull-right">
@@ -45,7 +45,7 @@
         <div class="col-xs-12">
             <div class="form-group">
                 @Html.LabelFor(x => x.Monto, new { @style = "font-family : Montserrat;" })
-                @Html.TextBoxFor(x => x.Monto, new { @class = "form-control", type = "number" })
+                @Html.TextBoxFor(x => x.Monto, new { @class = "form-control", type = "number" , max = "999999999"})
             </div>
         </div>
     </div>

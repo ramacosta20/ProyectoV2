@@ -14,7 +14,7 @@ namespace PaginaProyecto.Models
     {
         //declaro conexion
 
-        private MySqlConnection Conexiondb = new MySqlConnection("server=localhost; Uid=root; Password=root; Database=mydb; Port=3306");
+        private MySqlConnection Conexiondb = new MySqlConnection("server=localhost; Uid=root; Password=Proyecto; Database=mydb; Port=3306");
 
         //propiedades de la clase
         public int EventoID { get; set; }
@@ -32,6 +32,7 @@ namespace PaginaProyecto.Models
         public string Descripcion { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        [Range(0, 99999999999)]
         [Display(Name = "Meta")]
         public int Meta { get; set; }
 
@@ -56,7 +57,9 @@ namespace PaginaProyecto.Models
         public int CantDonantesEvento { get; set; }
 
         //metodos de la clase
-
+        public Evento() {
+            UsuarioAdmin = new Usuario();
+        }
         //inserta un evento en la DB
         public void InsertarEvento()
         {
@@ -114,6 +117,7 @@ namespace PaginaProyecto.Models
         //devuelve una lista de eventos que el usuario(id pasado como parametro) administra
         public List<Evento> ListarEventosUsuario(int idUsuarioAdmin)
         {
+           
             //abro conexion y declaro una transaccion
             Conexiondb.Open();
             MySqlTransaction tran = Conexiondb.BeginTransaction();
@@ -138,6 +142,8 @@ namespace PaginaProyecto.Models
                     oEvento.Meta = Convert.ToInt32(dr["Meta"]);
                     oEvento.FechaTermina = Convert.ToDateTime(dr["FechaTermina"]);
                     oEvento.ImagenString = dr["Imagen"].ToString();
+                    oEvento.UsuarioAdmin.UsuarioID = idUsuarioAdmin;
+                    oEvento.UsuarioAdmin.TraerUsuario();
                     oEvento.EstaEnFecha();
                     listaEventos.Add(oEvento);
                 }
@@ -260,6 +266,7 @@ namespace PaginaProyecto.Models
                     this.Descripcion = dr["Descripcion"].ToString();
                     this.FechaTermina = Convert.ToDateTime(dr["FechaTermina"]);
                     this.Recaudado = Convert.ToInt32(dr["Recaudado"]);
+                    this.UsuarioAdmin.UsuarioID = Convert.ToInt32(dr["UsuarioAdmin"]);
                 }
             }
             catch (Exception ex)

@@ -13,7 +13,7 @@ namespace PaginaProyecto.Models
     {
         //declaro conexion
 
-        private MySqlConnection Conexiondb = new MySqlConnection("server=localhost; Uid=root; Password=root; Database=mydb; Port=3306");
+        private MySqlConnection Conexiondb = new MySqlConnection("server=localhost; Uid=root; Password=Proyecto; Database=mydb; Port=3306");
 
 
         //propiedades de la clase
@@ -54,6 +54,39 @@ namespace PaginaProyecto.Models
         public List<string> ListaEventosDono { get; set; }
 
         //metodos publicos
+
+        public void TraerUsuario()
+        {
+            //abro conexion y declaro una transaccion
+            Conexiondb.Open();
+            MySqlTransaction tran = Conexiondb.BeginTransaction();
+            try
+            {
+                // asigno el nombre de la consulta a el nombre de consulta que tengo guardado en la DBConsulta.CommandType = CommandType.StoredProcedure;
+                MySqlCommand consulta = new MySqlCommand("TraerUsuario", Conexiondb, tran);
+                consulta.CommandType = CommandType.StoredProcedure;
+                //Agrego los parametros
+                consulta.Parameters.AddWithValue("PIdUsuario", this.UsuarioID);
+
+                //ejecuto la consulta y obtengo un iterable con registros
+                MySqlDataReader dr = consulta.ExecuteReader();
+                if (dr.Read())
+                {
+                    this.Email = dr["Email"].ToString();
+                }
+            }
+            catch (Exception ex2)
+            {
+                {
+                    //este bloque de codigo va a manejar cualquier error que pudieran 
+                    //ocurrir en el servidor que pudieran causar la falla del reintento,
+                    //como por ejemplo una conexion cerrada.
+                    Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                    Console.WriteLine("  Message: {0}", ex2.Message);
+                }
+            }
+            Conexiondb.Close();
+        }
 
         //Agrega el usuario que ejecuta el metodo a la base de datos
         public void InsertarUsuario()
