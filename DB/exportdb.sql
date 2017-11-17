@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `mydb` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `mydb`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: mydb
@@ -35,7 +33,7 @@ CREATE TABLE `donaciones` (
   KEY `fk_donaciones_usuarios1_idx` (`idUsuario`),
   CONSTRAINT `fk_donaciones_evento1` FOREIGN KEY (`idEvento`) REFERENCES `evento` (`idEvento`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_donaciones_usuarios1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +42,7 @@ CREATE TABLE `donaciones` (
 
 LOCK TABLES `donaciones` WRITE;
 /*!40000 ALTER TABLE `donaciones` DISABLE KEYS */;
-INSERT INTO `donaciones` VALUES (1,10,1,1),(2,10,1,1),(3,10,1,2),(4,20,2,1);
+INSERT INTO `donaciones` VALUES (41,3210,16,9),(42,200,15,9),(43,50000,15,10);
 /*!40000 ALTER TABLE `donaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,7 +68,7 @@ CREATE TABLE `evento` (
   UNIQUE KEY `NombreEvento_UNIQUE` (`NombreEvento`),
   KEY `fk_evento_usuarios_idx` (`UsuarioAdmin`),
   CONSTRAINT `fk_evento_usuarios` FOREIGN KEY (`UsuarioAdmin`) REFERENCES `usuarios` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,7 +77,7 @@ CREATE TABLE `evento` (
 
 LOCK TABLES `evento` WRITE;
 /*!40000 ALTER TABLE `evento` DISABLE KEYS */;
-INSERT INTO `evento` VALUES (1,'ted','holas',100,'2017-11-11 00:00:00',NULL,'default.gif',1,00000000020),(2,'Ajedrez','hol',1000,'2017-11-20 00:00:00',NULL,'DSCN7613.JPG',1,00000000000),(3,'tedy','ga',1000,'2017-11-20 00:00:00',NULL,'DSCN7613.JPG',1,00000000000);
+INSERT INTO `evento` VALUES (15,'BAFICI','Evento cinematografico internacional argentino.',50000,'2017-12-11 00:00:00',NULL,'bafici.png',9,00000000000),(16,'Un sol para los chicos','Evento caritativo',5000,'2018-05-11 00:00:00',NULL,'sol.png',6,00000000000);
 /*!40000 ALTER TABLE `evento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -98,7 +96,7 @@ CREATE TABLE `usuarios` (
   `Contraseña` varchar(45) NOT NULL,
   `Imagen` varchar(500) NOT NULL,
   PRIMARY KEY (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,7 +105,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'hernan','brunstein','123456@gmail.co','12345678','DSCN7608.JPG'),(2,'brunstein','esteban','132456@hotmail.com','12345678','DSCN7608.JPG'),(3,'fv','vf','fv','123456','default.JPG');
+INSERT INTO `usuarios` VALUES (6,'Hernan','Brunstein','hernan@brunstein.com','12345678','Default.png'),(7,'Uriel','Paluch','uriel@paluch.com','12345678','foto-de-perfil-3.jpg'),(8,'hernan','brunstein','123456@gmail.co','12345678','foto-de-perfil-3.jpg'),(9,'Ramiro','Costa','rami@gmail.com','12345678','foto_de_perfil.jpg'),(10,'maria','thompson','123456@gmail.com','12345678','Default.png');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -337,7 +335,7 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ModificarEvento`(
-in PIdEvento int(11), PImagen varchar(45), PDescripcion varchar(45)
+in PIdEvento int(11), PImagen varchar(45), PDescripcion varchar(500)
 )
 begin
 update Evento set Imagen = PImagen, Descripcion = PDescripcion where idEvento = PIdEvento;
@@ -489,6 +487,25 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `TraerUsuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `TraerUsuario`(in PIdUsuario int(11))
+BEGIN
+select * from usuarios where IdUsuario = PIdUsuario;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -499,4 +516,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-23 18:22:05
+-- Dump completed on 2017-11-17 16:59:16

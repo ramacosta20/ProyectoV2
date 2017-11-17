@@ -32,7 +32,7 @@ namespace PaginaProyecto.Models
         public string Descripcion { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [Range(0, 99999999999)]
+        [Range(0, 9999999999, ErrorMessage = "Ingrese un valor de 0 a 9999999999")]
         [Display(Name = "Meta")]
         public int Meta { get; set; }
 
@@ -311,7 +311,7 @@ namespace PaginaProyecto.Models
                 consulta.Parameters.AddWithValue("PImagen", this.ImagenString);
                 consulta.Parameters.AddWithValue("PDescripcion", this.Descripcion);
 
-                //ejecuto la consulta y obtengo un iterable con registros
+                //ejecuto la consulta
                 consulta.ExecuteNonQuery();
                 tran.Commit();
             }

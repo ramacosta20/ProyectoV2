@@ -29,7 +29,7 @@ namespace PaginaProyecto.Models
         public int CV { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [Range(0, 99999999999)]
+        [Range(0, 99999999, ErrorMessage ="Ingrese un valor de 0 a 99999999")]
         [Display(Name = "Monto")]
         public int Monto { get; set; }
 
